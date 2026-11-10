@@ -1,0 +1,1435 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101820">
+<title>Bingo 99 — Bảng điểm &amp; tạo vé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
+<style>@media screen{:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}}</style>
+<style id="css-main">:root {
+  color-scheme: dark;
+  --bg: #0a1117;
+  --surface: #101820;
+  --surface-raised: #141f28;
+  --surface-soft: #17242d;
+  --border: rgba(180, 209, 223, .11);
+  --border-strong: rgba(180, 209, 223, .19);
+  --text: #edf5f7;
+  --muted: #8ea2ad;
+  --dim: #637782;
+  --mint: #00e5a8;
+  --mint-soft: rgba(0, 229, 168, .12);
+  --yellow: #efc84a;
+  --red: #f07178;
+  --blue: #61b9e9;
+  --violet: #b69aff;
+  --display: 'Chakra Petch', 'Arial Narrow', sans-serif;
+  --body: 'DM Sans', 'Be Vietnam Pro', system-ui, sans-serif;
+  font-family: var(--body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; color: var(--text); background: radial-gradient(ellipse at 76% 0%, rgba(0,229,168,.05), transparent 34%), var(--bg); }
+button, input { font: inherit; }
+button { color: inherit; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; }
+.app-shell { max-width: 1500px; margin: 0 auto; padding: 0 38px 32px; }
+.topbar { min-height: 82px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.brand-lockup, .topbar-right, .live-indicator, .autosave { display: flex; align-items: center; }
+.brand-lockup { gap: 12px; }
+.brand-mark { width: 39px; height: 39px; position: relative; display: grid; place-items: center; border: 1px solid rgba(0,229,168,.55); border-radius: 50%; color: var(--mint); box-shadow: 0 0 24px rgba(0,229,168,.1), inset 0 0 12px rgba(0,229,168,.08); font: 700 20px var(--display); }
+.brand-mark::before { content: ''; position: absolute; inset: 4px; border: 1px dashed rgba(0,229,168,.32); border-radius: 50%; }
+.brand-mark i { position: absolute; width: 4px; height: 4px; right: -2px; top: 5px; background: var(--mint); border-radius: 50%; box-shadow: 0 0 8px var(--mint); }
+.brand-mark span { z-index: 1; }
+.brand-name { font: 700 19px/1 var(--display); letter-spacing: .12em; }
+.brand-name span { color: var(--mint); }
+.brand-caption, .eyebrow, .section-kicker, .summary-label, .field-label, .pot-title, .draw-meta-label, .brand-caption { font: 600 9px/1.4 var(--display); letter-spacing: .15em; }
+.brand-caption { margin-top: 5px; color: var(--dim); }
+.topbar-right { gap: 22px; }
+.live-indicator, .autosave { gap: 8px; color: var(--muted); font: 500 10px var(--display); letter-spacing: .08em; }
+.live-indicator { color: #b8c9d0; }
+.live-indicator i, .save-dot, .sample-dot { width: 7px; height: 7px; background: var(--mint); border-radius: 50%; box-shadow: 0 0 10px rgba(0,229,168,.65); }
+.save-dot { width: 5px; height: 5px; }
+.welcome-strip { min-height: 156px; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+.eyebrow { color: var(--mint); margin: 0 0 9px; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { margin: 0; font: 600 clamp(25px, 3vw, 35px)/1.15 var(--display); letter-spacing: -.025em; }
+.welcome-copy { color: var(--muted); margin: 8px 0 0; font-size: 13px; }
+.welcome-side { width: 160px; height: 140px; position: absolute; right: 8%; top: 6px; display: grid; place-items: center; opacity: .75; }
+.orbit { position: absolute; border: 1px solid rgba(0,229,168,.22); border-radius: 50%; transform: rotate(-25deg); }
+.orbit-one { width: 164px; height: 64px; }
+.orbit-two { width: 162px; height: 78px; transform: rotate(45deg); border-color: rgba(97,185,233,.2); }
+.orbit-number { width: 69px; height: 69px; display: grid; place-items: center; border: 1px solid rgba(0,229,168,.6); border-radius: 50%; color: var(--mint); background: rgba(16,24,32,.92); font: 600 31px var(--display); box-shadow: 0 0 32px rgba(0,229,168,.12), inset 0 0 18px rgba(0,229,168,.07); }
+.summary-row { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; padding: 20px 0 22px; }
+.summary-tile { min-height: 76px; display: flex; align-items: center; gap: 12px; padding: 13px 15px; border: 1px solid var(--border); border-radius: 11px; background: linear-gradient(125deg, rgba(20,31,40,.92), rgba(16,24,32,.82)); }
+.summary-icon { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; font-size: 20px; background: rgba(255,255,255,.04); }
+.icon-mint { color: var(--mint); }.icon-yellow { color: var(--yellow); }.icon-blue { color: var(--blue); }.icon-violet { color: var(--violet); }
+.summary-label { display: block; color: var(--dim); font-size: 8px; letter-spacing: .11em; white-space: nowrap; }
+.summary-tile strong { display: block; margin-top: 4px; font: 600 20px/1 var(--display); letter-spacing: .01em; }
+.dashboard-layout { display: grid; grid-template-columns: minmax(290px, 342px) minmax(0, 1fr); align-items: start; gap: 16px; }
+.setup-column, .main-column { display: grid; align-content: start; gap: 16px; min-width: 0; }
+.panel { border: 1px solid var(--border); border-radius: 12px; background: linear-gradient(145deg, rgba(19,29,38,.98), rgba(15,24,31,.98)); box-shadow: 0 8px 30px rgba(0,0,0,.1); }
+.setup-panel, .participants-panel { padding: 20px; }
+.panel-heading, .draw-panel-header, .scoreboard-header, .called-header, .winner-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.section-kicker { display: block; color: var(--mint); font-size: 8px; letter-spacing: .16em; }
+.panel-heading h2, .draw-panel-header h2, .scoreboard-header h2, .winner-panel h2 { margin: 4px 0 0; font: 600 21px/1.18 var(--display); letter-spacing: -.02em; }
+.heading-glyph { color: var(--dim); font: 20px var(--display); }
+.field-group { margin-top: 22px; }
+.field-label { display: block; margin-bottom: 9px; color: #afbec5; font-size: 9px; letter-spacing: .1em; }
+.range-inputs { display: flex; align-items: center; gap: 10px; }
+.range-field { flex: 1; height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 11px; border: 1px solid var(--border-strong); border-radius: 7px; background: rgba(6,14,19,.42); }
+.range-field span, .range-dash { color: var(--dim); font: 600 9px var(--display); }
+.range-field input, .money-input-wrap input { width: 100%; min-width: 0; border: 0; outline: none; color: var(--text); background: transparent; font: 600 16px var(--display); }
+.range-field input:focus-visible, .money-input-wrap input:focus-visible { outline: 0; }
+.range-field:focus-within, .money-input-wrap:focus-within { border-color: var(--mint); box-shadow: 0 0 0 2px rgba(0,229,168,.08); }
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { opacity: .4; }
+.field-hint { margin: 7px 0 0; color: var(--dim); font-size: 10px; line-height: 1.45; }
+.wager-group { margin-top: 17px; }
+.money-input-wrap { height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 11px; border: 1px solid var(--border-strong); border-radius: 7px; background: rgba(6,14,19,.42); }
+.money-input-wrap input { font-size: 15px; }
+.money-input-wrap span { flex-shrink: 0; color: var(--dim); font-size: 10px; }
+.pot-card { margin-top: 16px; padding: 12px 13px; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: rgba(0,229,168,.055); border: 1px solid rgba(0,229,168,.17); border-radius: 8px; }
+.pot-title { display: block; color: #a2b8bb; font-size: 8px; letter-spacing: .1em; }
+.pot-formula { display: block; margin-top: 4px; color: var(--dim); font-size: 10px; }
+.pot-card strong { color: var(--mint); font: 600 17px var(--display); white-space: nowrap; }
+.button { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 15px; border: 1px solid transparent; border-radius: 7px; cursor: pointer; font: 600 10px var(--display); letter-spacing: .08em; transition: transform .18s ease, background .18s ease, border-color .18s ease, opacity .18s ease; }
+.button:not(:disabled):hover { transform: translateY(-1px); }
+.button:disabled { cursor: not-allowed; opacity: .44; }
+.button-primary { color: #062219; background: var(--mint); box-shadow: 0 4px 18px rgba(0,229,168,.1); }
+.button-primary:not(:disabled):hover { background: #36f1bd; box-shadow: 0 6px 22px rgba(0,229,168,.22); }
+.new-round-button { width: 100%; margin-top: 14px; }
+.button-icon { font-size: 16px; font-weight: 400; }
+.button-help { color: var(--dim); text-align: center; font-size: 10px; margin: 8px 0 0; }
+.compact-heading h2 { font-size: 19px; }
+.count-badge { vertical-align: 2px; margin-left: 3px; padding: 2px 7px; color: var(--mint); border: 1px solid rgba(0,229,168,.22); border-radius: 12px; font: 500 11px var(--display); }
+.add-player-form { display: flex; gap: 7px; margin-top: 17px; }
+.add-player-form input { flex: 1; min-width: 0; height: 40px; padding: 0 11px; border: 1px solid var(--border-strong); border-radius: 6px; outline: 0; color: var(--text); background: rgba(6,14,19,.42); font-size: 11px; }
+.add-player-form input:focus { border-color: rgba(0,229,168,.65); }
+.add-player-form input::placeholder { color: #61747d; }
+.add-player-form button { width: 40px; height: 40px; border: 1px solid rgba(0,229,168,.32); border-radius: 6px; color: var(--mint); background: rgba(0,229,168,.08); cursor: pointer; font-size: 22px; font-weight: 300; }
+.add-player-form button:hover { background: rgba(0,229,168,.16); }
+.attendee-hint { margin-top: 6px; }
+.player-list { display: grid; gap: 7px; max-height: 196px; overflow-y: auto; padding: 0; margin: 13px 0 0; list-style: none; }
+.player-item { min-height: 38px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px 6px 9px; border: 1px solid rgba(180,209,223,.08); border-radius: 6px; background: rgba(255,255,255,.018); }
+.player-item-main { min-width: 0; display: flex; align-items: center; gap: 9px; }
+.player-avatar { flex: 0 0 23px; width: 23px; height: 23px; display: grid; place-items: center; border-radius: 6px; color: var(--mint); background: rgba(0,229,168,.1); font: 600 11px var(--display); }
+.player-name { overflow: hidden; color: #dbe6e9; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.remove-player { width: 26px; height: 26px; border: 0; border-radius: 5px; color: var(--dim); background: transparent; cursor: pointer; font-size: 16px; line-height: 1; }
+.remove-player:not(:disabled):hover { color: var(--red); background: rgba(240,113,120,.1); }
+.remove-player:disabled { opacity: .25; cursor: not-allowed; }
+.empty-players { padding: 15px 8px; margin-top: 10px; border: 1px dashed var(--border-strong); border-radius: 7px; color: var(--dim); text-align: center; font-size: 11px; }
+.setup-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-top: 13px; margin-top: 14px; border-top: 1px solid var(--border); }
+.sample-note { display: inline-flex; align-items: center; gap: 6px; color: var(--dim); font-size: 9px; }
+.sample-dot { width: 5px; height: 5px; background: var(--yellow); box-shadow: none; }
+.text-button { padding: 4px 0; border: 0; background: transparent; cursor: pointer; font-size: 10px; }
+.danger-text { color: #c9858b; }.danger-text:hover { color: var(--red); }
+.draw-panel { padding: 20px 23px 18px; overflow: hidden; }
+.draw-panel-header { align-items: start; }
+.round-status { display: inline-flex; align-items: center; gap: 7px; padding: 6px 9px; border: 1px solid var(--border); border-radius: 20px; color: var(--dim); font: 600 8px var(--display); letter-spacing: .08em; }
+.round-status span:first-child { width: 6px; height: 6px; border-radius: 50%; background: #657580; }
+.round-status.active { color: var(--mint); border-color: rgba(0,229,168,.2); background: rgba(0,229,168,.05); }
+.round-status.active span:first-child { background: var(--mint); box-shadow: 0 0 8px var(--mint); }
+.draw-stage { min-height: 254px; display: flex; align-items: center; justify-content: center; gap: min(8vw, 94px); padding: 10px 5px 15px; }
+.draw-orb-wrap { width: 206px; height: 206px; position: relative; flex-shrink: 0; display: grid; place-items: center; }
+.orb-ring { position: absolute; border: 1px solid rgba(0,229,168,.16); border-radius: 50%; transform: rotate(-27deg) scaleY(.89); }
+.ring-a { inset: 2px; }.ring-b { inset: 13px; border-style: dashed; border-color: rgba(97,185,233,.24); transform: rotate(23deg) scaleY(.93); }
+.draw-orb { z-index: 1; width: 154px; height: 154px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,.72); border-radius: 50%; color: #fff; background: radial-gradient(circle at 34% 26%, #ffcf57 0%, #ff8d27 38%, #ed4b41 74%, #c82553 100%); box-shadow: 0 0 0 7px rgba(255,164,55,.12), 0 10px 25px rgba(237,75,65,.24), inset 0 3px 13px rgba(255,255,255,.34); cursor: pointer; transition: transform .22s ease, box-shadow .22s ease, filter .22s ease; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.draw-orb:not(:disabled):hover { transform: scale(1.045); filter: saturate(1.12) brightness(1.08); box-shadow: 0 0 0 10px rgba(255,164,55,.16), 0 12px 34px rgba(237,75,65,.36), inset 0 3px 13px rgba(255,255,255,.4); }
+.draw-orb:not(:disabled):active { transform: scale(.96); }
+.draw-orb:disabled { cursor: not-allowed; opacity: .68; }
+.draw-orb.is-drawing { animation: drawPulse .54s ease-in-out; }
+.draw-value { color: #fff; font: 600 61px/.95 var(--display); letter-spacing: -.055em; text-shadow: 0 2px 12px rgba(96,26,30,.42); }
+.draw-caption { margin-top: 8px; padding: 5px 9px; border: 1px solid rgba(255,255,255,.45); border-radius: 20px; color: #fff; background: rgba(111,32,36,.32); font: 700 9px var(--display); letter-spacing: .12em; text-shadow: 0 1px 5px rgba(80,20,25,.45); }
+.draw-meta { min-width: 130px; text-align: center; }
+.draw-meta-label { display: block; color: var(--dim); font-size: 8px; letter-spacing: .16em; }
+.draw-meta strong { display: block; margin: 4px 0 3px; color: #e7f1f3; font: 500 32px var(--display); }
+.draw-range-label { color: var(--dim); font-size: 10px; }
+.draw-controls-row { display: grid; grid-template-columns: auto minmax(70px,1fr); align-items: center; gap: 18px; padding: 11px 0 16px; border-top: 1px solid var(--border); }
+.draw-progress-copy { color: var(--muted); font-size: 10px; white-space: nowrap; }
+.draw-progress-copy strong { color: var(--mint); font: 600 15px var(--display); }
+.progress-separator { padding: 0 4px; color: var(--dim); }
+.progress-track { height: 4px; overflow: hidden; border-radius: 6px; background: #24333b; }
+.progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#00b987,var(--mint)); box-shadow: 0 0 8px rgba(0,229,168,.55); transition: width .3s ease; }
+.called-section { padding-top: 15px; border-top: 1px solid var(--border); }
+.called-header { align-items: end; }
+.called-header h3 { margin: 4px 0 0; font: 500 14px var(--display); }
+.called-subtitle { color: var(--dim); font-size: 9px; }
+.called-numbers { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; min-height: 42px; margin-top: 12px; }
+.called-empty { color: #647781; font-size: 10px; }
+.number-chip { min-width: 31px; height: 31px; padding: 0 4px; display: grid; place-items: center; border: 1px solid rgba(180,209,223,.11); border-radius: 7px; color: #bac9ce; background: rgba(255,255,255,.025); font: 500 12px var(--display); }
+.number-chip.latest { color: #062219; border-color: var(--mint); background: var(--mint); box-shadow: 0 0 14px rgba(0,229,168,.2); font-weight: 700; animation: chipPop .28s ease-out; }
+.winner-panel { padding: 18px 21px; border-color: rgba(0,229,168,.2); background: linear-gradient(145deg, rgba(0,229,168,.045), rgba(16,24,32,.98) 45%); }
+.winner-panel[hidden], .history-panel[hidden] { display: none; }
+.winner-panel-copy { display: flex; align-items: end; justify-content: space-between; gap: 15px; }
+.winner-panel-copy p { max-width: 255px; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.45; text-align: right; }
+.winner-options { display: flex; flex-wrap: wrap; gap: 7px; padding: 14px 0 12px; }
+.winner-option { position: relative; cursor: pointer; }
+.winner-option input { position: absolute; opacity: 0; pointer-events: none; }
+.winner-option span { min-height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid var(--border-strong); border-radius: 6px; color: #b5c5ca; background: rgba(0,0,0,.12); font-size: 10px; transition: .15s ease; }
+.winner-option span::before { content: '+'; width: 15px; height: 15px; display: grid; place-items: center; border: 1px solid rgba(180,209,223,.22); border-radius: 50%; color: var(--dim); font-size: 11px; }
+.winner-option input:checked + span { color: var(--mint); border-color: rgba(0,229,168,.52); background: rgba(0,229,168,.09); }
+.winner-option input:checked + span::before { content: '✓'; border-color: var(--mint); color: #062219; background: var(--mint); font-size: 9px; }
+.winner-option input:focus-visible + span { outline: 2px solid var(--mint); outline-offset: 2px; }
+.winner-footer { padding-top: 11px; border-top: 1px solid var(--border); }
+.winner-summary { color: var(--muted); font-size: 10px; }.winner-summary strong { color: var(--mint); }
+.button-secondary { color: #061e17; background: var(--mint); }.button-secondary span { font-size: 14px; }
+.scoreboard-panel { padding: 19px 21px 14px; }
+.scoreboard-header { align-items: start; margin-bottom: 15px; }
+.panel-subtitle { margin: 5px 0 0; color: var(--dim); font-size: 10px; }
+.button-outline { min-height: 34px; padding: 0 11px; color: #a9bac0; border-color: var(--border-strong); background: rgba(255,255,255,.018); font-size: 9px; }
+.button-outline:not(:disabled):hover { color: var(--mint); border-color: rgba(0,229,168,.42); }
+.export-icon { font-size: 16px; }
+.scoreboard-wrap { width: 100%; max-width: 100%; overflow-x: auto; overflow-y: auto; max-height: 420px; border: 1px solid var(--border); border-radius: 7px; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: rgba(0,229,168,.5) #152129; }
+.scoreboard-wrap::-webkit-scrollbar { width: 8px; height: 8px; }
+.scoreboard-wrap::-webkit-scrollbar-track { border-radius: 8px; background: #152129; }
+.scoreboard-wrap::-webkit-scrollbar-thumb { border: 2px solid #152129; border-radius: 8px; background: rgba(0,229,168,.48); }
+.scoreboard-table { width: max-content; min-width: 100%; border-collapse: separate; border-spacing: 0; font-size: 10px; }
+.scoreboard-table th, .scoreboard-table td { min-width: 88px; padding: 10px 11px; border-bottom: 1px solid rgba(180,209,223,.08); border-right: 1px solid rgba(180,209,223,.055); text-align: right; white-space: nowrap; }
+.scoreboard-table th { position: sticky; top: 0; z-index: 1; color: var(--dim); background: #16222a; font: 600 8px var(--display); letter-spacing: .08em; }
+.scoreboard-table th:first-child, .scoreboard-table td:first-child { position: sticky; left: 0; z-index: 2; min-width: 135px; text-align: left; }
+.scoreboard-table th:first-child { z-index: 3; background: #16222a; }
+.scoreboard-table td:first-child { color: #d9e5e8; background: #121d25; font-weight: 500; }
+.scoreboard-table th:last-child, .scoreboard-table td:last-child { border-right: 0; }
+.scoreboard-table tr:last-child td { border-bottom: 0; }
+.scoreboard-table .total-col { color: #c9d8dc; background: rgba(0,229,168,.035); font-weight: 600; }
+.scoreboard-table tfoot th, .scoreboard-table tfoot td { position: sticky; bottom: 0; z-index: 1; border-top: 1px solid rgba(0,229,168,.3); border-bottom: 0; color: #d8eee7; background: #17262c; font: 600 9px var(--display); letter-spacing: .04em; }
+.scoreboard-table tfoot th { left: 0; z-index: 3; text-align: left; }
+.scoreboard-table tfoot td.total-col { z-index: 2; }
+.balance-zero { color: var(--mint); }
+.scoreboard-table .score-positive { color: var(--mint); }
+.scoreboard-table .score-negative { color: #ec959a; }
+.scoreboard-table .score-pending { color: var(--dim); }
+.scoreboard-table .round-subdate { display: block; margin-top: 3px; color: #60747e; font: 400 8px var(--body); letter-spacing: 0; }
+.scoreboard-table .participant-cell { display: flex; align-items: center; gap: 8px; }
+.scoreboard-table .participant-mini { width: 20px; height: 20px; display: grid; flex: 0 0 auto; place-items: center; border-radius: 5px; color: var(--mint); background: rgba(0,229,168,.09); font: 600 9px var(--display); }
+.scoreboard-empty { min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border: 1px dashed var(--border-strong); border-radius: 8px; color: var(--dim); text-align: center; }
+.scoreboard-empty[hidden] { display: none; }
+.empty-ledger-icon { margin-bottom: 3px; color: #60757f; font-size: 24px; }
+.scoreboard-empty strong { color: #b6c5c9; font: 500 13px var(--display); }
+.scoreboard-empty span:last-child { font-size: 10px; }
+.score-legend { display: flex; flex-wrap: wrap; gap: 15px; padding-top: 11px; color: var(--dim); font-size: 9px; }
+.score-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.score-legend i { width: 14px; height: 14px; display: grid; place-items: center; border-radius: 4px; font-style: normal; font-size: 10px; }
+.legend-plus { color: var(--mint); background: rgba(0,229,168,.1); }.legend-minus { color: var(--red); background: rgba(240,113,120,.1); }
+.legend-zero { color: #062219; background: var(--mint); }
+.history-panel { padding: 18px 21px; }
+.round-history { display: grid; gap: 8px; margin-top: 13px; }
+.history-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 11px 12px; border: 1px solid var(--border); border-radius: 7px; background: rgba(255,255,255,.018); }
+.history-main { min-width: 0; }
+.history-title { color: var(--text); font: 600 12px var(--display); }
+.history-meta { margin-top: 4px; color: var(--dim); font-size: 9px; }
+.history-draw-details { margin-top: 6px; color: var(--muted); font-size: 9px; }
+.history-draw-details summary { display: inline-block; color: #83b5a7; cursor: pointer; list-style: none; }
+.history-draw-details summary::-webkit-details-marker { display: none; }
+.history-draw-details summary::before { content: '+'; display: inline-block; width: 14px; color: var(--mint); font: 600 12px var(--display); }
+.history-draw-details[open] summary::before { content: '−'; }
+.history-drawn-list { max-width: 620px; margin-top: 6px; color: #a0b3ba; font: 400 10px/1.7 var(--display); overflow-wrap: anywhere; }
+.history-winners { color: var(--mint); font-size: 10px; text-align: right; }
+.app-footer { display: flex; align-items: center; justify-content: space-between; padding: 20px 2px 0; color: #52646d; font: 500 8px var(--display); letter-spacing: .1em; }
+.footer-tool-link { color: #829994; text-decoration: none; transition: color .15s ease; }
+.footer-tool-link:hover { color: var(--mint); }
+.footer-divider { margin: 0 7px; color: var(--mint); }
+.toast { position: fixed; z-index: 10; left: 50%; bottom: 25px; max-width: calc(100vw - 32px); padding: 11px 16px; transform: translate(-50%, 16px); border: 1px solid rgba(0,229,168,.24); border-radius: 8px; opacity: 0; pointer-events: none; color: #dce9e9; background: #14232b; box-shadow: 0 12px 32px rgba(0,0,0,.35); font-size: 11px; transition: opacity .18s ease, transform .18s ease; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast.error { border-color: rgba(240,113,120,.45); }
+.reset-dialog { width: min(420px, calc(100vw - 28px)); padding: 0; border: 1px solid var(--border-strong); border-radius: 13px; color: var(--text); background: #121e26; box-shadow: 0 22px 80px rgba(0,0,0,.62); }
+.reset-dialog::backdrop { background: rgba(3,8,12,.76); backdrop-filter: blur(4px); }
+.dialog-content { padding: 25px; }
+.dialog-icon { width: 34px; height: 34px; display: grid; place-items: center; margin-bottom: 17px; border: 1px solid rgba(240,113,120,.35); border-radius: 9px; color: var(--red); background: rgba(240,113,120,.08); font: 700 16px var(--display); }
+.dialog-content h2 { margin: 5px 0 8px; font: 600 21px var(--display); }
+.dialog-content p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.dialog-actions { display: flex; justify-content: end; gap: 8px; margin-top: 21px; }
+.button-danger { color: #fff; background: #b94e59; }.button-danger:hover { background: #d25a64; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@keyframes drawPulse { 0% { transform: scale(1); } 40% { transform: scale(.94); box-shadow: 0 0 0 14px rgba(0,229,168,.08), 0 0 55px rgba(0,229,168,.28); } 100% { transform: scale(1); } }
+@keyframes chipPop { from { transform: scale(.82); opacity: .55; } to { transform: scale(1); opacity: 1; } }
+@media (min-width: 1360px) { .app-shell { padding-inline: 48px; }.dashboard-layout { grid-template-columns: minmax(308px, 350px) minmax(0, 1fr); }.draw-stage { min-height: 275px; } }
+@media (max-width: 1000px) { .app-shell { padding-inline: 24px; }.dashboard-layout { grid-template-columns: minmax(250px, 310px) minmax(0,1fr); gap: 12px; }.summary-row { gap: 8px; }.summary-tile { gap: 8px; padding: 11px 9px; }.summary-icon { width: 29px; height: 29px; }.summary-label { font-size: 7px; }.summary-tile strong { font-size: 17px; }.draw-stage { gap: 28px; }.draw-orb-wrap { transform: scale(.9); margin: -10px; } }
+@media (max-width: 760px) { html, body { width: 100%; min-width: 0; min-height: 100%; overflow-x: hidden; overflow-y: auto; }.app-shell { width: 100%; max-width: 100%; min-width: 0; overflow: clip; padding: 0 16px 23px; }.topbar { min-height: 67px; }.brand-mark { width: 34px; height: 34px; }.topbar-right { gap: 12px; }.autosave { font-size: 9px; }.live-indicator { display: none; }.welcome-strip { min-height: 133px; }.welcome-side { right: 0; transform: scale(.78); transform-origin: center right; opacity: .47; }.welcome-strip > div:first-child { z-index: 1; max-width: 75%; }.welcome-copy { max-width: 340px; font-size: 11px; line-height: 1.5; }.summary-row { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; padding: 14px 0; }.summary-tile { min-width: 0; min-height: 65px; padding: 9px 11px; }.summary-label { font-size: 7px; white-space: normal; }.summary-tile strong { font-size: 17px; }.dashboard-layout { width: 100%; min-width: 0; grid-template-columns: minmax(0,1fr); gap: 12px; }.setup-column, .main-column { width: 100%; min-width: 0; }.setup-column { grid-template-columns: minmax(0,1fr); gap: 12px; }.setup-panel, .participants-panel { min-width: 0; padding: 17px; }.main-column { gap: 12px; }.draw-panel { min-width: 0; padding: 17px 16px 15px; }.draw-stage { min-height: 225px; gap: 27px; }.draw-orb-wrap { width: 184px; height: 184px; margin: 0; transform: scale(.93); }.draw-orb { width: 144px; height: 144px; }.draw-value { font-size: 56px; }.draw-meta { min-width: 100px; }.draw-meta strong { font-size: 27px; }.draw-controls-row { grid-template-columns: 1fr; gap: 8px; }.scoreboard-panel { min-width: 0; max-width: 100%; overflow: hidden; padding: 17px 14px 13px; }.scoreboard-header { min-width: 0; gap: 8px; }.panel-subtitle { max-width: 200px; line-height: 1.4; }.scoreboard-wrap { max-width: 100%; touch-action: pan-x pan-y; }.scoreboard-table th, .scoreboard-table td { min-width: 78px; padding: 9px 8px; }.scoreboard-table th:first-child, .scoreboard-table td:first-child { min-width: 122px; }.winner-panel { min-width: 0; padding: 16px; }.app-footer { font-size: 7px; letter-spacing: .06em; } }
+@media (max-width: 430px) { .topbar-right { gap: 0; }.autosave { font-size: 8px; }.welcome-side { right: -10px; transform: scale(.64); }.welcome-strip > div:first-child { max-width: 80%; }h1 { font-size: 25px; }.summary-tile { gap: 7px; padding: 8px; }.summary-icon { width: 26px; height: 26px; border-radius: 7px; font-size: 16px; }.summary-label { font-size: 6px; letter-spacing: .08em; }.summary-tile strong { font-size: 16px; }.draw-stage { gap: 12px; }.draw-orb-wrap { width: 167px; height: 167px; transform: scale(.9); margin: -4px; }.draw-orb { width: 136px; height: 136px; }.draw-value { font-size: 50px; }.draw-meta { min-width: 85px; }.draw-meta strong { font-size: 24px; }.draw-meta-label { font-size: 7px; }.round-status { font-size: 7px; padding: 5px 7px; }.scoreboard-header h2 { font-size: 19px; }.button-outline { padding: 0 8px; font-size: 8px; }.winner-panel-copy { align-items: start; flex-direction: column; gap: 7px; }.winner-panel-copy p { text-align: left; }.winner-footer { align-items: start; flex-direction: column; }.winner-footer .button { width: 100%; }.app-footer { align-items: start; flex-direction: column; gap: 7px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+#view-main.ro .setup-panel input,#view-main.ro .setup-panel button,#view-main.ro .participants-panel input,#view-main.ro .participants-panel button,#view-main.ro .winner-panel{pointer-events:none;opacity:.55}
+</style>
+<style id="css-print" media="not all">:root{color-scheme:dark;--bg:#0a1117;--panel:#111c24;--border:rgba(180,209,223,.14);--text:#edf5f7;--muted:#91a4ad;--dim:#657982;--mint:#00e5a8;--red:#f07178;--body:'DM Sans','Be Vietnam Pro',system-ui,sans-serif;--display:'Chakra Petch','Arial Narrow',sans-serif;font-family:var(--body);font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--text)}
+*{box-sizing:border-box}body{margin:0;min-width:320px;background:radial-gradient(ellipse at 80% 0%,rgba(0,229,168,.055),transparent 34%),var(--bg)}a{color:inherit}.print-app{width:min(1180px,100%);margin:auto;padding:0 30px 32px}.print-header{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}.brand{display:flex;align-items:center;gap:10px;text-decoration:none}.brand-mark{width:38px;height:38px;display:grid;place-items:center;border:1px solid rgba(0,229,168,.55);border-radius:50%;color:var(--mint);font:700 20px var(--display);box-shadow:inset 0 0 12px rgba(0,229,168,.08)}.brand strong{display:block;font:700 17px/1 var(--display);letter-spacing:.12em}.brand strong span{color:var(--mint)}.brand small{display:block;margin-top:5px;color:var(--dim);font:600 8px var(--display);letter-spacing:.12em}.back-link{color:#a8b9bf;font-size:12px;text-decoration:none}.back-link:hover{color:var(--mint)}.intro{padding:30px 0 23px;border-bottom:1px solid var(--border)}.eyebrow{margin:0 0 8px;color:var(--mint);font:600 9px var(--display);letter-spacing:.16em}.intro h1{margin:0;font:600 clamp(25px,4vw,36px)/1.15 var(--display);letter-spacing:-.02em}.intro-copy{max-width:740px;margin:9px 0 0;color:var(--muted);font-size:13px;line-height:1.65}.controls-panel{margin-top:20px;padding:20px;border:1px solid var(--border);border-radius:12px;background:linear-gradient(145deg,rgba(19,29,38,.98),rgba(15,24,31,.98));box-shadow:0 8px 30px rgba(0,0,0,.1)}.control-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.control{min-width:0;display:grid;gap:7px;color:#afbec5;font:600 9px var(--display);letter-spacing:.09em}.control input,.control select{width:100%;height:42px;padding:0 11px;border:1px solid rgba(180,209,223,.2);border-radius:7px;outline:0;color:var(--text);background:#0c151b;font:500 13px var(--body);letter-spacing:0}.control input:focus,.control select:focus{border-color:var(--mint);box-shadow:0 0 0 2px rgba(0,229,168,.08)}.control small{color:var(--dim);font:400 10px/1.45 var(--body);letter-spacing:0}.range-error{color:#ff9a9f!important}.rule-note{display:flex;align-items:flex-start;gap:9px;margin-top:16px;padding:11px 12px;border:1px solid rgba(0,229,168,.16);border-radius:7px;color:#a8c2bc;background:rgba(0,229,168,.045);font-size:11px;line-height:1.55}.rule-note strong{color:#daf4ec}.rule-icon{flex:none;color:var(--mint);font-weight:700}.action-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}.button{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;border:1px solid transparent;border-radius:7px;cursor:pointer;font:600 10px var(--display);letter-spacing:.055em;transition:transform .15s,filter .15s,opacity .15s}.button:not(:disabled):hover{transform:translateY(-1px);filter:brightness(1.08)}.button:disabled{opacity:.38;cursor:not-allowed}.button-primary{color:#062219;background:var(--mint)}.button-secondary{color:#092219;background:#a7e7d5}.button-outline{color:#b6c7cc;border-color:var(--border);background:rgba(255,255,255,.02)}.status-message{min-height:16px;margin:11px 0 0;color:var(--dim);font-size:10px;line-height:1.5}.status-message.error{color:#ff9a9f}.audit-results{margin-top:12px;padding:12px 14px;border:1px solid;border-radius:8px;font-size:11px;line-height:1.6}.audit-results[hidden]{display:none}.audit-results strong{font:700 11px var(--display);letter-spacing:.08em}.audit-results ul{display:grid;gap:3px;margin:8px 0 0;padding-left:17px}.audit-pass{border-color:rgba(0,229,168,.3);color:#bde9dc;background:rgba(0,229,168,.06)}.audit-fail{border-color:rgba(240,113,120,.35);color:#ffc0c2;background:rgba(240,113,120,.06)}.preview-section{margin-top:28px}.preview-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:13px}.preview-heading .eyebrow{margin-bottom:4px}.preview-heading h2{margin:0;font:600 21px var(--display)}.preview-summary{color:var(--muted);font-size:10px;text-align:right}.ticket-output{display:grid;justify-items:center;gap:18px}.empty-state{width:100%;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1px dashed rgba(180,209,223,.22);border-radius:10px;color:var(--dim);text-align:center}.empty-state>span{color:#60757f;font-size:27px}.empty-state strong{color:#b6c5c9;font:500 14px var(--display)}.empty-state small{max-width:320px;padding:0 12px;font-size:10px;line-height:1.5}.page-footer{display:flex;justify-content:space-between;gap:12px;margin-top:24px;padding-top:13px;border-top:1px solid var(--border);color:#61737c;font:500 9px var(--display);letter-spacing:.04em}
+@media(max-width:760px){.print-app{padding:0 16px 24px}.print-header{height:64px}.back-link{font-size:10px}.intro{padding:23px 0 18px}.intro-copy{font-size:11px}.controls-panel{padding:15px}.control-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.action-row{display:grid;grid-template-columns:1fr}.button{width:100%}.print-sheet{padding:5mm;gap:2.5mm}.preview-summary{max-width:170px}.page-footer{flex-direction:column;font-size:8px}}
+@media(max-width:390px){.control-grid{grid-template-columns:1fr}.brand-mark{width:32px;height:32px}.print-sheet{padding:4mm;gap:2mm}}
+[hidden]{display:none!important}
+.custom-box{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.ticket-output{--k:1;display:grid;justify-items:center;gap:16px}
+.sheet-wrap{width:calc(var(--pw)*1mm*var(--k));height:calc(var(--ph)*1mm*var(--k));overflow:hidden;background:#fff;border-radius:4px;box-shadow:0 10px 35px rgba(0,0,0,.22)}
+.sheet{box-sizing:border-box;display:grid;background:#fff;color:#111;transform:scale(var(--k));transform-origin:0 0;overflow:hidden}
+.ticket{box-sizing:border-box;place-self:center;display:flex;flex-direction:column;border:.4mm solid #111;background:#fff;font-family:Arial,Helvetica,sans-serif;overflow:hidden}
+.t-title{flex:none;height:calc(var(--c)*.95);display:grid;place-items:center;background:#fff;color:#111;font:900 calc(var(--c)*.62)/1 'Arial Black',Arial,sans-serif;letter-spacing:.16em;padding-left:.16em;border-bottom:.3mm solid #111}
+.t-ranges{flex:none;height:calc(var(--c)*.36);display:grid;grid-template-columns:repeat(var(--cols),1fr);background:#fff;color:#333;border-bottom:.3mm solid #111}
+.t-ranges span{display:grid;place-items:center;font:700 calc(var(--c)*.2)/1 Arial,sans-serif}
+.t-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));grid-template-rows:repeat(var(--rows),minmax(0,1fr));gap:0;background:#fff}
+.cell{box-sizing:border-box;border:.16mm solid #222;min-width:0;min-height:0;display:grid;place-items:center;overflow:hidden;background:#fff;color:#000;font:800 calc(var(--c)*.52)/1 Arial,Helvetica,sans-serif;font-variant-numeric:tabular-nums lining-nums;white-space:nowrap}
+.cell.blank{background:#e4eaec}
+.cell.free{font-size:calc(var(--c)*.6);color:#222}
+@media print{
+@page{size:A4 portrait;margin:0}
+html,body{background:#fff!important;margin:0!important;padding:0!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.print-app{width:auto;max-width:none;margin:0;padding:0}
+.print-header,.intro,.controls-panel,.preview-heading,.page-footer{display:none!important}
+.preview-section{margin:0}.ticket-output{display:block}
+.sheet-wrap{width:calc(var(--pw)*1mm);height:calc(var(--ph)*1mm - .4mm);border-radius:0;box-shadow:none;break-after:page;page-break-after:always}
+.sheet-wrap:last-child{break-after:auto;page-break-after:auto}
+.sheet{transform:none}
+}
+</style>
+</head>
+<body>
+<div id="view-main">
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true"><span>B</span><i></i></div>
+        <div>
+          <div class="brand-name">BINGO<span>99</span></div>
+          <div class="brand-caption">BẢNG SỐ TRỰC TIẾP</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span class="live-indicator"><i></i> SẴN SÀNG</span>
+        <span class="autosave"><span class="save-dot"></span> Tự lưu trên thiết bị</span>
+      </div>
+    </header>
+
+    <section class="welcome-strip" aria-label="Giới thiệu">
+      <div>
+        <p class="eyebrow">TRÒ CHƠI BẮT ĐẦU TỪ ĐÂY</p>
+        <h1>Mỗi lượt, một con số.</h1>
+        <p class="welcome-copy">Thiết lập người chơi, quay số và theo dõi bảng thắng thua ngay tại đây.</p>
+      </div>
+      <div class="welcome-side" aria-hidden="true">
+        <span class="orbit orbit-one"></span><span class="orbit orbit-two"></span>
+        <span class="orbit-number">99</span>
+      </div>
+    </section>
+
+    <section class="summary-row" aria-label="Tổng quan">
+      <article class="summary-tile">
+        <div class="summary-icon icon-mint">◎</div>
+        <div><span class="summary-label">VÁN HIỆN TẠI</span><strong id="summary-round">—</strong></div>
+      </article>
+      <article class="summary-tile">
+        <div class="summary-icon icon-yellow">♙</div>
+        <div><span class="summary-label">NGƯỜI THAM DỰ</span><strong id="summary-players">0</strong></div>
+      </article>
+      <article class="summary-tile">
+        <div class="summary-icon icon-blue">◉</div>
+        <div><span class="summary-label">TỔNG TIỀN CƯỢC / VÁN</span><strong id="summary-pot">0 ₫</strong></div>
+      </article>
+      <article class="summary-tile">
+        <div class="summary-icon icon-violet">▦</div>
+        <div><span class="summary-label">SỐ VÁN ĐÃ CHỐT</span><strong id="summary-finished">0</strong></div>
+      </article>
+    </section>
+
+    <main class="dashboard-layout">
+      <aside class="setup-column">
+        <section class="panel setup-panel">
+          <div class="panel-heading">
+            <div><span class="section-kicker">01 / THIẾT LẬP</span><h2>Cuộc chơi</h2></div>
+            <span class="heading-glyph">⌘</span>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="range-start">KHOẢNG SỐ</label>
+            <div class="range-inputs">
+              <div class="range-field"><span>TỪ</span><input id="range-start" type="number" min="1" max="99" value="1" inputmode="numeric" aria-label="Số bắt đầu"></div>
+              <span class="range-dash">—</span>
+              <div class="range-field"><span>ĐẾN</span><input id="range-end" type="number" min="1" max="99" value="99" inputmode="numeric" aria-label="Số kết thúc"></div>
+            </div>
+            <p class="field-hint">Chọn từ 1 đến 99, ví dụ 10–45.</p>
+          </div>
+
+          <div class="field-group wager-group">
+            <label class="field-label" for="wager-input">TIỀN CƯỢC MỖI NGƯỜI</label>
+            <div class="money-input-wrap"><input id="wager-input" type="number" min="0" step="1000" value="10000" inputmode="numeric"><span>₫ / người</span></div>
+          </div>
+
+          <div class="pot-card">
+            <div><span class="pot-title">TỔNG TIỀN CƯỢC</span><span id="pot-formula" class="pot-formula">0 người × 10.000 ₫</span></div>
+            <strong id="pot-value">0 ₫</strong>
+          </div>
+
+          <button id="new-round-btn" class="button button-primary new-round-button" type="button">
+            <span class="button-icon">＋</span><span id="new-round-label">BẮT ĐẦU VÁN 1</span>
+          </button>
+          <p id="round-help" class="button-help">Bắt đầu ván để mở lượt quay số.</p>
+        </section>
+
+        <section class="panel participants-panel">
+          <div class="panel-heading compact-heading">
+            <div><span class="section-kicker">02 / DANH SÁCH</span><h2>Người chơi <span id="participant-count" class="count-badge">0</span></h2></div>
+          </div>
+          <form id="add-player-form" class="add-player-form">
+            <label class="sr-only" for="player-name">Tên người tham dự</label>
+            <input id="player-name" type="text" maxlength="40" placeholder="Nhập tên người chơi…" autocomplete="off">
+            <button type="submit" aria-label="Thêm người tham dự" title="Thêm người">+</button>
+          </form>
+          <p class="field-hint attendee-hint">Tên trùng nhau chỉ tính là một người.</p>
+          <ul id="player-list" class="player-list" aria-live="polite"></ul>
+          <div id="empty-players" class="empty-players" hidden>Thêm tên để bắt đầu cuộc chơi.</div>
+          <div class="setup-footer">
+            <span class="sample-note"><span class="sample-dot"></span> Dữ liệu mẫu — có thể sửa hoặc xóa</span>
+            <button id="reset-btn" class="text-button danger-text" type="button">Bắt đầu lại từ đầu</button>
+          </div>
+        </section>
+      </aside>
+
+      <section class="main-column">
+        <section class="panel draw-panel" aria-labelledby="draw-title">
+          <div class="draw-panel-header">
+            <div>
+              <span class="section-kicker">03 / QUAY SỐ</span>
+              <h2 id="draw-title">Bảng rút số</h2>
+            </div>
+            <div class="round-status"><span id="round-status-dot"></span><span id="round-status">CHƯA BẮT ĐẦU</span></div>
+          </div>
+
+          <div class="draw-stage">
+            <div class="draw-orb-wrap">
+              <div class="orb-ring ring-a"></div><div class="orb-ring ring-b"></div>
+              <button id="draw-btn" class="draw-orb" type="button" disabled aria-label="Quay và rút một số">
+                <span id="draw-value" class="draw-value">—</span>
+                <span id="draw-caption" class="draw-caption">NHẤN ĐỂ QUAY</span>
+              </button>
+            </div>
+            <div class="draw-meta">
+              <span class="draw-meta-label">SỐ VỪA XỔ</span>
+              <strong id="last-draw">—</strong>
+              <span id="draw-range-label" class="draw-range-label">Khoảng 1–99</span>
+            </div>
+          </div>
+
+          <div class="draw-controls-row">
+            <div class="draw-progress-copy"><strong id="draw-count">0</strong><span> số đã xổ</span><span class="progress-separator">/</span><span id="remaining-count">99 còn lại</span></div>
+            <div class="progress-track"><span id="progress-bar"></span></div>
+          </div>
+
+          <div class="called-section">
+            <div class="called-header"><div><span class="section-kicker">LỊCH SỬ LƯỢT QUAY</span><h3>Các số đã ra</h3></div><span id="called-subtitle" class="called-subtitle">Số mới nhất nằm bên trái</span></div>
+            <div id="called-numbers" class="called-numbers" aria-live="polite"><div class="called-empty">Số được gọi sẽ xuất hiện ở đây.</div></div>
+          </div>
+        </section>
+
+        <section id="winner-panel" class="panel winner-panel" hidden>
+          <div class="winner-panel-copy">
+            <div><span class="section-kicker">04 / CHỐT KẾT QUẢ</span><h2>Ai là người thắng?</h2></div>
+            <p>Chọn người thắng. Chỉ tiền cược của người thua được chia; tổng thắng thua mỗi ván luôn bằng 0.</p>
+          </div>
+          <div id="winner-options" class="winner-options"></div>
+          <div class="winner-footer">
+            <span id="winner-summary" class="winner-summary">Chưa chọn người thắng</span>
+            <button id="finish-round-btn" class="button button-secondary" type="button" disabled>CHỐT VÁN NÀY <span>→</span></button>
+          </div>
+        </section>
+
+        <section class="panel scoreboard-panel">
+          <div class="scoreboard-header">
+            <div><span class="section-kicker">05 / THEO DÕI ĐIỂM</span><h2>Bảng thắng thua</h2><p class="panel-subtitle">Mỗi dòng là một người · mỗi cột là một ván</p></div>
+            <button id="export-btn" class="button button-outline" type="button"><span class="export-icon">⇩</span> XUẤT CSV</button>
+          </div>
+          <div id="scoreboard-wrap" class="scoreboard-wrap">
+            <table class="scoreboard-table">
+              <thead id="scoreboard-head"></thead>
+              <tbody id="scoreboard-body"></tbody>
+              <tfoot id="scoreboard-foot"></tfoot>
+            </table>
+          </div>
+          <div id="scoreboard-empty" class="scoreboard-empty" hidden>
+            <span class="empty-ledger-icon">▤</span><strong>Chưa có kết quả để tổng kết</strong><span>Chốt người thắng sau ván đầu tiên để xem bảng điểm.</span>
+          </div>
+          <div class="score-legend"><span><i class="legend-plus">+</i> Tiền thắng ròng (từ người thua)</span><span><i class="legend-minus">−</i> Tiền cược người thua</span><span><i class="legend-zero">0</i> Mỗi ván: tổng thắng + thua = 0</span></div>
+        </section>
+
+        <section id="history-panel" class="panel history-panel" hidden>
+          <div class="panel-heading compact-heading"><div><span class="section-kicker">LƯU TRỮ</span><h2>Ván đã chốt</h2></div></div>
+          <div id="round-history" class="round-history"></div>
+        </section>
+      </section>
+    </main>
+    <footer class="app-footer"><span>BINGO 99 <span class="footer-divider">/</span> BẢNG ĐIỂM TRỰC TIẾP</span><span>Dữ liệu lưu trên trình duyệt này</span><a class="footer-tool-link" href="#ve">Tạo vé Bingo quốc tế →</a></footer>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="reset-dialog" class="reset-dialog">
+    <form method="dialog" class="dialog-content">
+      <div class="dialog-icon">!</div>
+      <span class="section-kicker">XÓA DỮ LIỆU</span>
+      <h2>Bắt đầu lại từ đầu?</h2>
+      <p>Toàn bộ người chơi, lượt quay và bảng thắng thua trên thiết bị này sẽ bị xóa. Thao tác này không thể hoàn tác.</p>
+      <div class="dialog-actions"><button class="button button-outline" value="cancel">HỦY</button><button id="confirm-reset" class="button button-danger" value="confirm">XÓA VÀ BẮT ĐẦU LẠI</button></div>
+    </form>
+  </dialog>
+</div>
+<div id="view-print" hidden>  <div class="print-app">
+    <header class="print-header">
+      <a class="brand" href="#bang" aria-label="Trở về Bingo 99"><span class="brand-mark">B</span><span><strong>BINGO<span>99</span></strong><small>VÉ SỐ CHUẨN QUỐC TẾ</small></span></a>
+      <a class="back-link" href="#bang">← Trở lại bảng Bingo</a>
+    </header>
+    <main>
+      <section class="intro">
+        <p class="eyebrow">BINGO · IN THEO CHUẨN</p>
+        <h1>Tạo vé Bingo để in</h1>
+        <p class="intro-copy">Chọn kiểu vé chuẩn (75 số kiểu Mỹ, 90 số kiểu Anh/châu Âu…) và khổ giấy. Mỗi số nằm đúng trong ô, đúng cột theo quy tắc bingo.</p>
+      </section>
+      <section class="controls-panel" aria-label="Thiết lập vé Bingo">
+        <div class="control-grid">
+          <label class="control"><span>KIỂU VÉ</span><select id="mode"><option value="us75" selected>Bingo 75 số · 5×5 (chuẩn Mỹ)</option><option value="uk90">Bingo 90 số · 9×3 (chuẩn Anh/châu Âu)</option><option value="q30">Bingo 30 số · 3×3 (nhanh)</option><option value="custom">Tùy chỉnh · lưới & dãy liên tiếp</option></select><small id="mode-note"></small></label>
+          <label class="control"><span>KHỔ GIẤY IN</span><select id="paper-size"><option value="A3">A3 — 297 × 420 mm</option><option value="A4" selected>A4 — 210 × 297 mm</option><option value="A5">A5 — 148 × 210 mm</option><option value="Letter">Letter — 216 × 279 mm</option><option value="Legal">Legal — 216 × 356 mm</option></select></label>
+          <label class="control"><span>VÉ TRÊN MỖI TỜ</span><select id="cards-per-page"><option value="auto" selected>Tự cân bằng</option></select><small id="layout-note"></small></label>
+          <label class="control"><span>SỐ LƯỢNG VÉ CẦN TẠO</span><input id="ticket-count" type="number" min="1" max="240" value="12" inputmode="numeric"><small>Tối đa 240 · không có hai vé giống nhau</small></label>
+          <label class="control" id="free-box"><span>Ô GIỮA VÉ</span><select id="free-center"><option value="1" selected>FREE ★ (chuẩn)</option><option value="0">Có số như ô khác</option></select></label>
+          <div id="custom-box" class="custom-box" hidden>
+            <label class="control"><span>KÍCH THƯỚC LƯỚI · CỘT × HÀNG</span><select id="grid-size"><option value="3x3">3 × 3</option><option value="4x4">4 × 4</option><option value="5x5" selected>5 × 5</option><option value="9x3">9 × 3</option><option value="2x2">2 × 2</option><option value="6x6">6 × 6</option><option value="7x7">7 × 7</option><option value="8x8">8 × 8</option><option value="9x9">9 × 9</option></select></label>
+            <label class="control"><span>SỐ BẮT ĐẦU</span><input id="range-start" type="number" min="1" max="75" value="1" inputmode="numeric"><small id="range-note"></small></label>
+          </div>
+        </div>
+        <div class="action-row">
+          <button id="generate-btn" class="button button-primary" type="button">✦ TẠO VÉ NGẪU NHIÊN</button>
+          <button id="check-btn" class="button button-secondary" type="button" disabled>✓ KIỂM TRA TOÀN BỘ VÉ</button>
+          <button id="download-btn" class="button button-outline" type="button" disabled>⇩ TẢI FILE VÉ (.HTML)</button>
+          <button id="print-btn" class="button button-outline" type="button" disabled>▣ IN / LƯU PDF</button>
+        </div>
+        <p id="status-message" class="status-message" role="status" aria-live="polite">Tạo vé, kiểm tra rồi mới tải hoặc in.</p>
+        <section id="audit-results" class="audit-results" aria-live="polite" hidden></section>
+      </section>
+      <section class="preview-section" aria-label="Xem trước vé Bingo">
+        <div class="preview-heading"><div><p class="eyebrow">BẢN IN</p><h2>Vé của bạn</h2></div><span id="preview-summary" class="preview-summary">Chưa tạo vé</span></div>
+        <div id="ticket-output" class="ticket-output"><div class="empty-state"><span>▦</span><strong>Vé sẽ hiện ở đây</strong><small>Xem trước đúng tỉ lệ giấy in.</small></div></div>
+      </section>
+    </main>
+    <footer class="page-footer"><span>BINGO 99 · VÉ SỐ CHUẨN QUỐC TẾ</span><span>Chỉ in số · mỗi vé là một mẫu riêng</span></footer>
+  </div>
+</div>
+<script>(() => {
+  'use strict';
+
+  const STORAGE_KEY = 'bingo99-session-v1';
+  const SAMPLE_PLAYERS = [
+    { id: 'demo-an', name: 'An' },
+    { id: 'demo-binh', name: 'Bình' },
+    { id: 'demo-chi', name: 'Chi' },
+    { id: 'demo-dung', name: 'Dũng' }
+  ];
+
+  function freshState(withSamples = true) {
+    return {
+      rangeStart: 1,
+      rangeEnd: 99,
+      wager: 10000,
+      players: withSamples ? SAMPLE_PLAYERS.map(player => ({ ...player })) : [],
+      nextRoundNumber: 1,
+      currentRound: null,
+      rounds: []
+    };
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return freshState(true);
+      const saved = JSON.parse(raw);
+      if (!saved || !Array.isArray(saved.players) || !Array.isArray(saved.rounds)) return freshState(true);
+      return {
+        ...freshState(false),
+        ...saved,
+        players: saved.players.map(player => ({ id: String(player.id), name: String(player.name) })),
+        rounds: saved.rounds,
+        currentRound: saved.currentRound || null
+      };
+    } catch (error) {
+      console.warn('Không đọc được dữ liệu Bingo đã lưu:', error);
+      return freshState(true);
+    }
+  }
+
+  let state = loadState();
+  let toastTimer = 0;
+  const ROOT = document.getElementById('view-main');
+  const $ = id => ROOT.querySelector('#' + id);
+  const el = {
+    rangeStart: $('range-start'), rangeEnd: $('range-end'), wager: $('wager-input'),
+    newRound: $('new-round-btn'), newRoundLabel: $('new-round-label'), roundHelp: $('round-help'),
+    playerForm: $('add-player-form'), playerName: $('player-name'), playerList: $('player-list'),
+    emptyPlayers: $('empty-players'), playerCount: $('participant-count'), potFormula: $('pot-formula'), potValue: $('pot-value'),
+    summaryRound: $('summary-round'), summaryPlayers: $('summary-players'), summaryPot: $('summary-pot'), summaryFinished: $('summary-finished'),
+    roundStatus: $('round-status'), roundStatusDot: $('round-status-dot'), drawBtn: $('draw-btn'), drawValue: $('draw-value'), drawCaption: $('draw-caption'),
+    lastDraw: $('last-draw'), drawRangeLabel: $('draw-range-label'), drawCount: $('draw-count'), remainingCount: $('remaining-count'),
+    progressBar: $('progress-bar'), calledNumbers: $('called-numbers'), calledSubtitle: $('called-subtitle'),
+    winnerPanel: $('winner-panel'), winnerOptions: $('winner-options'), winnerSummary: $('winner-summary'), finishRound: $('finish-round-btn'),
+    scoreboardHead: $('scoreboard-head'), scoreboardBody: $('scoreboard-body'), scoreboardEmpty: $('scoreboard-empty'),
+    historyPanel: $('history-panel'), roundHistory: $('round-history'), exportBtn: $('export-btn'), resetBtn: $('reset-btn'),
+    resetDialog: $('reset-dialog'), confirmReset: $('confirm-reset'), toast: $('toast')
+  };
+
+  const money = value => `${new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(Math.round(Number(value) || 0))}\u00a0₫`;
+  const today = () => new Date().toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const isoNow = () => new Date().toISOString();
+  const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+  const shortDate = iso => iso ? new Date(iso).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' }) : '';
+
+
+  async function saveFile(filename, data, mime) {
+    try {
+      const dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null;
+      if (dl) { await dl.save({ filename, data }); return 'saved'; }
+    } catch (error) {
+      if (error && error.code === 'declined') return 'declined';
+      console.warn('downloads:', error);
+    }
+    const url = URL.createObjectURL(new Blob([data], { type: mime }));
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    return 'saved';
+  }
+
+  let readOnly = false, syncRef = null, lastJson = '', syncTimer = 0, applying = false;
+  const guard = () => {
+    if (readOnly) { showToast('Bạn đang ở chế độ xem. Chỉ người chủ phòng mới thao tác được.', true); return true; }
+    return false;
+  };
+  function setLive(mode) {
+    const tag = document.querySelector('#view-main .live-indicator');
+    if (tag) tag.innerHTML = '<i></i> ' + ({ sync: 'ĐANG ĐỒNG BỘ', view: 'CHỈ XEM · TRỰC TIẾP', offline: 'MẤT KẾT NỐI', local: 'SẴN SÀNG' }[mode] || 'SẴN SÀNG');
+    ROOT.classList.toggle('ro', readOnly);
+    const pill = document.getElementById('online-btn');
+    if (pill) pill.textContent = { sync: '● Online · chủ phòng', view: '● Đang xem trực tiếp', offline: '● Mất kết nối · thử lại…', local: '⚙ Chơi online' }[mode] || '⚙ Chơi online';
+  }
+  async function pushState() {
+    const json = JSON.stringify(state);
+    if (!syncRef || readOnly || json === lastJson) return;
+    lastJson = json;
+    try { await syncRef.set({ json, at: isoNow() }); setLive('sync'); }
+    catch (error) {
+      if (error && error.code === 'invalid_argument') { readOnly = true; setLive('view'); render(); }
+      else { lastJson = ''; setLive('offline'); }
+    }
+  }
+  function queueSync() {
+    if (!syncRef || readOnly || applying) return;
+    window.clearTimeout(syncTimer);
+    syncTimer = window.setTimeout(pushState, 200);
+  }
+  const CFG_KEY = 'bingo99.online';
+  function onlineCfg() {
+    let c = null;
+    try { c = JSON.parse(localStorage.getItem(CFG_KEY) || 'null'); } catch (e) { c = null; }
+    const q = new URLSearchParams(location.search);
+    if (q.get('u') && q.get('k')) {
+      const room = q.get('r') || 'bingo99';
+      c = { url: q.get('u'), key: q.get('k'), room, pin: c && c.room === room && c.url === q.get('u') ? c.pin : '' };
+    }
+    if (!c || !c.url || !c.key) return null;
+    c.url = c.url.trim().replace(/\/+$/, ''); c.room = (c.room || 'bingo99').trim(); return c;
+  }
+  function openOnlineDialog() {
+    const cfg = onlineCfg() || { url: '', key: '', room: 'bingo99', pin: '' };
+    const old = document.getElementById('online-dialog'); if (old) old.remove();
+    const d = document.createElement('dialog'); d.id = 'online-dialog';
+    d.style.cssText = 'max-width:440px;width:92vw;background:#0f1a22;color:#e8f1f2;border:1px solid #2a4350;border-radius:14px;padding:18px;font:14px/1.45 system-ui,sans-serif';
+    const f = 'display:block;width:100%;box-sizing:border-box;margin:4px 0 12px;padding:10px;border-radius:8px;border:1px solid #2a4350;background:#0a1218;color:#fff;font-size:14px';
+    const link = cfg.url && cfg.key ? location.origin + location.pathname + '?u=' + encodeURIComponent(cfg.url) + '&k=' + encodeURIComponent(cfg.key) + '&r=' + encodeURIComponent(cfg.room) : '';
+    d.innerHTML = '<strong style="font-size:16px">Chơi online · ai cũng xem được</strong><p style="color:#9db4bd;margin:6px 0 12px">Dán thông tin Supabase của bạn. Điền PIN để làm chủ phòng; để trống PIN nếu chỉ muốn xem.</p>' +
+      '<label>Project URL<input id="od-url" style="' + f + '" placeholder="https://xxxx.supabase.co"></label>' +
+      '<label>Anon public key<input id="od-key" style="' + f + '"></label>' +
+      '<label>Tên phòng<input id="od-room" style="' + f + '"></label>' +
+      '<label>PIN chủ phòng (từ 4 ký tự)<input id="od-pin" type="password" style="' + f + '"></label>' +
+      (link ? '<label>Link cho người xem<input id="od-link" readonly style="' + f + '"></label>' : '') +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button id="od-save" style="flex:1;padding:11px;border-radius:8px;border:0;background:#17c58a;color:#05241a;font-weight:700">Lưu</button>' +
+      (link ? '<button id="od-copy" style="padding:11px;border-radius:8px;border:1px solid #2a4350;background:none;color:#e8f1f2">Sao chép link</button><button id="od-off" style="padding:11px;border-radius:8px;border:1px solid #2a4350;background:none;color:#ff9aa8">Tắt</button>' : '') +
+      '<button id="od-close" style="padding:11px;border-radius:8px;border:1px solid #2a4350;background:none;color:#e8f1f2">Đóng</button></div>';
+    document.body.appendChild(d);
+    d.querySelector('#od-url').value = cfg.url; d.querySelector('#od-key').value = cfg.key; d.querySelector('#od-room').value = cfg.room; d.querySelector('#od-pin').value = cfg.pin || '';
+    if (link) d.querySelector('#od-link').value = link;
+    d.querySelector('#od-close').onclick = () => d.close();
+    d.querySelector('#od-save').onclick = () => {
+      const c = { url: d.querySelector('#od-url').value.trim(), key: d.querySelector('#od-key').value.trim(), room: d.querySelector('#od-room').value.trim() || 'bingo99', pin: d.querySelector('#od-pin').value };
+      if (!/^https:\/\/.+/.test(c.url) || c.key.length < 20) { showToast('Hãy dán đúng Project URL (https://…) và Anon key.', true); return; }
+      if (c.pin && c.pin.length < 4) { showToast('PIN cần từ 4 ký tự.', true); return; }
+      localStorage.setItem(CFG_KEY, JSON.stringify(c)); location.href = location.pathname;
+    };
+    if (link) {
+      d.querySelector('#od-copy').onclick = async () => { try { await navigator.clipboard.writeText(link); showToast('Đã sao chép link cho người xem.'); } catch (e) { d.querySelector('#od-link').select(); showToast('Hãy giữ và sao chép link trong ô.'); } };
+      d.querySelector('#od-off').onclick = () => { localStorage.removeItem(CFG_KEY); location.href = location.pathname; };
+    }
+    d.showModal();
+  }
+  async function initOnline(cfg) {
+    const base = cfg.url + '/rest/v1/', head = { apikey: cfg.key, 'Content-Type': 'application/json' };
+    if (cfg.key.startsWith('eyJ')) head.Authorization = 'Bearer ' + cfg.key;
+    readOnly = !cfg.pin;
+    let lastAt = '', busy = false;
+    syncRef = {
+      set: async ({ json }) => {
+        const res = await fetch(base + 'rpc/bingo_save', { method: 'POST', headers: head, body: JSON.stringify({ p_room: cfg.room, p_pin: cfg.pin, p_state: JSON.parse(json) }) });
+        const text = await res.text();
+        if (!res.ok) { const e = new Error(text); e.code = /PIN/i.test(text) ? 'invalid_argument' : 'unavailable'; throw e; }
+        try { lastAt = JSON.parse(text); } catch (e) { /* bỏ qua */ }
+      }
+    };
+    const pull = async () => {
+      if (busy || document.hidden) return;
+      busy = true;
+      try {
+        const res = await fetch(base + 'bingo_room?id=eq.' + encodeURIComponent(cfg.room) + '&select=state,updated_at', { headers: head, cache: 'no-store' });
+        if (!res.ok) throw new Error(String(res.status));
+        const rows = await res.json();
+        if (rows[0]) {
+          if (rows[0].updated_at !== lastAt) {
+            lastAt = rows[0].updated_at;
+            applying = true;
+            try { state = { ...freshState(false), ...rows[0].state }; lastJson = JSON.stringify(state); render(); } finally { applying = false; }
+          }
+        } else if (!readOnly) { await pushState(); }
+        setLive(readOnly ? 'view' : 'sync');
+      } catch (error) { setLive('offline'); } finally { busy = false; }
+    };
+    await pull();
+    window.setInterval(pull, 3000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) pull(); });
+  }
+  async function initSync() {
+    const cfg = onlineCfg();
+    if (cfg) { await initOnline(cfg); return; }
+    try {
+      if (!(window.claude && window.claude.use)) return;
+      const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+      if (!db) return;
+      readOnly = !(user && await user.canEdit());
+      syncRef = db.doc('game/state');
+      syncRef.onSnapshot(snap => {
+        if (snap.exists) {
+          const data = snap.data();
+          if (data && typeof data.json === 'string' && data.json !== lastJson) {
+            try {
+              const remote = JSON.parse(data.json);
+              lastJson = data.json; applying = true;
+              state = { ...freshState(false), ...remote };
+              render();
+            } catch (error) { console.warn('Dữ liệu đồng bộ lỗi:', error); }
+            finally { applying = false; }
+          }
+        } else if (!readOnly) { pushState(); }
+        setLive(readOnly ? 'view' : 'sync');
+        render();
+      }, () => setLive('offline'));
+    } catch (error) { console.warn('Không bật được đồng bộ:', error); }
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      queueSync();
+      document.querySelector('.save-dot')?.classList.add('saved');
+    } catch (error) {
+      console.error('Không lưu được dữ liệu Bingo:', error);
+      showToast('Không thể lưu trên thiết bị này. Hãy xuất CSV để giữ kết quả.', true);
+    }
+  }
+
+  function showToast(message, isError = false) {
+    el.toast.textContent = message;
+    el.toast.classList.toggle('error', isError);
+    el.toast.classList.add('show');
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => el.toast.classList.remove('show'), 2600);
+  }
+
+  function getWager() {
+    const value = Number(el.wager.value);
+    return Number.isFinite(value) && value >= 0 ? Math.floor(value) : 0;
+  }
+
+  function getRange() {
+    return { start: Number(el.rangeStart.value), end: Number(el.rangeEnd.value) };
+  }
+
+  function moneyCell(value) {
+    if (value === null || value === undefined) return '<span class="score-pending">—</span>';
+    if (value > 0) return `<span class="score-positive">+${money(value)}</span>`;
+    if (value < 0) return `<span class="score-negative">−${money(Math.abs(value))}</span>`;
+    return '<span class="score-pending">0 ₫</span>';
+  }
+
+  function currentPot() { return state.players.length * getWager(); }
+
+  function validateRange(showMessage = true) {
+    const { start, end } = getRange();
+    const valid = Number.isInteger(start) && Number.isInteger(end) && start >= 1 && end <= 99 && start < end;
+    el.rangeStart.setAttribute('aria-invalid', String(!valid));
+    el.rangeEnd.setAttribute('aria-invalid', String(!valid));
+    if (!valid && showMessage) showToast('Khoảng số phải nằm trong 1–99 và số bắt đầu nhỏ hơn số kết thúc.', true);
+    return valid;
+  }
+
+  function unbiasedInt(maxExclusive) {
+    const limit = Math.floor(0x100000000 / maxExclusive) * maxExclusive;
+    const buffer = new Uint32Array(1);
+    let value;
+    do {
+      crypto.getRandomValues(buffer);
+      value = buffer[0];
+    } while (value >= limit);
+    return value % maxExclusive;
+  }
+
+  function shuffledNumbers(start, end) {
+    const numbers = Array.from({ length: end - start + 1 }, (_, index) => start + index);
+    for (let i = numbers.length - 1; i > 0; i--) {
+      const j = unbiasedInt(i + 1);
+      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+    }
+    return numbers;
+  }
+
+  function remainingPool(r) {
+    const done = new Set(r.drawnNumbers || []);
+    const list = [];
+    for (let v = r.start; v <= r.end; v++) if (!done.has(v)) list.push(v);
+    return list;
+  }
+
+  function startRound() {
+    if (guard()) return;
+    if (state.currentRound && !state.currentRound.scored) {
+      showToast('Hãy chốt kết quả ván hiện tại trước khi bắt đầu ván mới.', true);
+      return;
+    }
+    if (!state.players.length) {
+      showToast('Thêm ít nhất một người tham dự trước khi bắt đầu.', true);
+      el.playerName.focus();
+      return;
+    }
+    if (!validateRange()) return;
+    const { start, end } = getRange();
+    state.currentRound = {
+      number: state.nextRoundNumber,
+      start,
+      end,
+      date: isoNow(),
+      wager: getWager(),
+      participants: state.players.map(player => ({ ...player })),
+      drawnNumbers: [],
+      lastDraw: null,
+      winners: [],
+      scored: false
+    };
+    state.nextRoundNumber += 1;
+    save();
+    render();
+    showToast(`Ván ${state.currentRound.number} đã bắt đầu. Chúc may mắn!`);
+  }
+
+  function drawNumber() {
+    if (guard()) return;
+    const round = state.currentRound;
+    if (!round || round.scored) {
+      showToast('Hãy bắt đầu ván mới trước khi quay số.', true);
+      return;
+    }
+    const pool = remainingPool(round);
+    if (!pool.length) {
+      showToast('Đã rút hết các số trong khoảng của ván này.');
+      renderDraw();
+      return;
+    }
+    const number = pool[unbiasedInt(pool.length)];
+    round.drawnNumbers.push(number);
+    round.lastDraw = number;
+    save();
+    el.drawBtn.classList.remove('is-drawing');
+    void el.drawBtn.offsetWidth;
+    el.drawBtn.classList.add('is-drawing');
+    renderDraw();
+    window.setTimeout(() => el.drawBtn.classList.remove('is-drawing'), 560);
+  }
+
+  function addPlayer(name) {
+    if (guard()) return;
+    const trimmed = name.trim().replace(/\s+/g, ' ');
+    if (!trimmed) return showToast('Nhập tên người tham dự trước nhé.', true);
+    const key = trimmed.toLocaleLowerCase('vi');
+    if (state.players.some(player => player.name.trim().toLocaleLowerCase('vi') === key)) {
+      return showToast('Tên này đã có trong danh sách; mỗi tên chỉ tính một người.', true);
+    }
+    state.players.push({ id: crypto.randomUUID ? crypto.randomUUID() : `player-${Date.now()}-${Math.random()}`, name: trimmed });
+    save();
+    render();
+    el.playerName.value = '';
+    el.playerName.focus();
+    showToast(`Đã thêm ${trimmed}.`);
+  }
+
+  function removePlayer(id) {
+    if (guard()) return;
+    const player = state.players.find(item => item.id === id);
+    if (!player) return;
+    state.players = state.players.filter(item => item.id !== id);
+    save();
+    render();
+    showToast(`Đã xóa ${player.name} khỏi danh sách cho các ván tiếp theo.`);
+  }
+
+  function selectedWinners() {
+    return [...el.winnerOptions.querySelectorAll('input[name="winner"]:checked')].map(input => input.value);
+  }
+
+  function updateWinnerSummary() {
+    const round = state.currentRound;
+    if (!round) return;
+    const selected = selectedWinners();
+    const losersPool = selected.length ? round.wager * (round.participants.length - selected.length) : 0;
+    const average = selected.length ? losersPool / selected.length : 0;
+    const splitNote = selected.length && losersPool % selected.length ? ' · 1 ₫ lẻ được phân bổ để cân bằng' : '';
+    el.winnerSummary.innerHTML = selected.length
+      ? `<strong>${selected.length} người thắng</strong> · quỹ từ người thua ${escapeHtml(money(losersPool))} · bình quân ${escapeHtml(money(average))}/người${splitNote}`
+      : 'Chưa chọn người thắng';
+    el.finishRound.disabled = selected.length === 0;
+  }
+
+  function finishRound() {
+    if (guard()) return;
+    const round = state.currentRound;
+    if (!round || round.scored) return;
+    const winners = selectedWinners();
+    if (!winners.length) return showToast('Chọn ít nhất một người thắng để chốt ván.', true);
+    round.winners = winners;
+    round.scored = true;
+    round.finishedAt = isoNow();
+    state.rounds.push(round);
+    state.currentRound = null;
+    save();
+    render();
+    showToast(`Đã chốt ván ${round.number}. Kết quả được lưu vào bảng thắng thua.`);
+  }
+
+  function resetAll() {
+    if (guard()) return;
+    state = freshState(false);
+    save();
+    render();
+    showToast('Đã xóa dữ liệu và bắt đầu lại từ đầu.');
+  }
+
+  function renderSetup() {
+    el.rangeStart.value = state.rangeStart;
+    el.rangeEnd.value = state.rangeEnd;
+    el.wager.value = state.wager;
+    el.rangeStart.disabled = Boolean(state.currentRound);
+    el.rangeEnd.disabled = Boolean(state.currentRound);
+    el.wager.disabled = Boolean(state.currentRound);
+
+    const count = state.players.length;
+    const pot = currentPot();
+    el.playerCount.textContent = count;
+    el.summaryPlayers.textContent = count;
+    el.potFormula.textContent = `${count} ${count === 1 ? 'người' : 'người'} × ${money(getWager())}`;
+    el.potValue.textContent = money(pot);
+    el.summaryPot.textContent = money(pot);
+    el.summaryFinished.textContent = state.rounds.length;
+    el.summaryRound.textContent = state.currentRound ? `VÁN ${String(state.currentRound.number).padStart(2, '0')}` : (state.rounds.length ? 'ĐÃ CHỐT' : '—');
+
+    const active = Boolean(state.currentRound);
+    el.playerName.disabled = active;
+    el.playerForm.querySelector('button').disabled = active;
+    el.emptyPlayers.hidden = count !== 0;
+    el.playerList.innerHTML = state.players.map((player, index) => `
+      <li class="player-item">
+        <div class="player-item-main"><span class="player-avatar">${escapeHtml(player.name.trim().slice(0, 1).toLocaleUpperCase('vi'))}</span><span class="player-name" title="${escapeHtml(player.name)}">${escapeHtml(player.name)}</span></div>
+        <button class="remove-player" type="button" data-remove-player="${escapeHtml(player.id)}" aria-label="Xóa ${escapeHtml(player.name)}" title="Xóa người chơi" ${active ? 'disabled' : ''}>×</button>
+      </li>`).join('');
+
+    el.newRoundLabel.textContent = state.currentRound
+      ? `VÁN ${state.currentRound.number} ĐANG CHƠI`
+      : `VÁN MỚI · BẮT ĐẦU VÁN ${state.nextRoundNumber}`;
+    if (active) {
+      el.newRound.disabled = true;
+      el.roundHelp.textContent = `Hoàn tất ván ${state.currentRound.number} trước khi sang ván mới.`;
+    } else {
+      el.newRound.disabled = count === 0;
+      el.roundHelp.textContent = count ? `Bắt đầu ván ${state.nextRoundNumber} với ${count} người tham dự.` : 'Thêm người chơi để bắt đầu ván.';
+    }
+    el.drawRangeLabel.textContent = active ? `Khoảng ${state.currentRound.start}–${state.currentRound.end}` : `Khoảng ${state.rangeStart || 1}–${state.rangeEnd || 99}`;
+  }
+
+  function renderDraw() {
+    const round = state.currentRound;
+    const active = Boolean(round && !round.scored);
+    el.drawBtn.disabled = !active || readOnly || remainingPool(round).length === 0;
+    el.drawBtn.setAttribute('aria-label', active ? 'Quay và rút một số ngẫu nhiên' : 'Bắt đầu ván mới để quay số');
+    el.roundStatus.textContent = active ? `VÁN ${String(round.number).padStart(2, '0')} ĐANG CHƠI` : (state.rounds.length ? 'SẴN SÀNG VÁN MỚI' : 'CHƯA BẮT ĐẦU');
+    el.roundStatus.classList.toggle('active', active);
+    el.drawValue.textContent = round?.lastDraw ?? '—';
+    el.drawCaption.textContent = active ? (remainingPool(round).length ? 'NHẤN ĐỂ QUAY' : 'ĐÃ HẾT SỐ') : 'NHẤN ĐỂ QUAY';
+    el.lastDraw.textContent = round?.lastDraw ?? '—';
+    const drawn = round?.drawnNumbers || [];
+    const total = round ? round.end - round.start + 1 : Math.max(0, Number(state.rangeEnd) - Number(state.rangeStart) + 1);
+    const remaining = round ? remainingPool(round).length : total;
+    el.drawCount.textContent = drawn.length;
+    el.remainingCount.textContent = `${remaining} còn lại`;
+    el.progressBar.style.width = `${total > 0 ? (drawn.length / total) * 100 : 0}%`;
+    el.calledSubtitle.textContent = drawn.length ? `${drawn.length} / ${total} số trong ván ${round.number}` : 'Số mới nhất nằm bên trái';
+    el.calledNumbers.innerHTML = drawn.length
+      ? drawn.slice().reverse().map((number, index) => `<span class="number-chip ${index === 0 ? 'latest' : ''}" aria-label="Số ${number}${index === 0 ? ', mới nhất' : ''}">${number}</span>`).join('')
+      : '<div class="called-empty">Số được gọi sẽ xuất hiện ở đây.</div>';
+  }
+
+  function renderWinners() {
+    const round = state.currentRound;
+    const show = Boolean(round && !round.scored);
+    el.winnerPanel.hidden = !show;
+    if (!show) return;
+    const previouslySelected = new Set(selectedWinners());
+    el.winnerOptions.innerHTML = round.participants.map(player => `
+      <label class="winner-option">
+        <input type="checkbox" name="winner" value="${escapeHtml(player.id)}" ${previouslySelected.has(player.id) ? 'checked' : ''}>
+        <span>${escapeHtml(player.name)}</span>
+      </label>`).join('');
+    updateWinnerSummary();
+  }
+
+  function allScorePlayers() {
+    const seen = new Set();
+    const players = [];
+    const source = [...state.rounds.flatMap(round => round.participants || []), ...(state.currentRound?.participants || []), ...state.players];
+    source.forEach(player => {
+      if (!seen.has(player.id)) { seen.add(player.id); players.push(player); }
+    });
+    return players;
+  }
+
+  function scoreFor(playerId, round) {
+    if (!round.scored) return null;
+    const participated = round.participants.some(player => player.id === playerId);
+    if (!participated) return null;
+    if (!round.winners.includes(playerId)) return -round.wager;
+
+    // Winners receive only the losing players' stakes as net profit. Split
+    // integer VND deterministically so the per-round ledger always sums to 0.
+    const winnersCount = round.winners.length;
+    const losersPool = round.wager * (round.participants.length - winnersCount);
+    const baseShare = Math.floor(losersPool / winnersCount);
+    const remainder = losersPool % winnersCount;
+    const winnerIndex = round.winners.indexOf(playerId);
+    return baseShare + (winnerIndex < remainder ? 1 : 0);
+  }
+
+  function renderScoreboard() {
+    const rounds = [...state.rounds, ...(state.currentRound ? [state.currentRound] : [])];
+    const players = allScorePlayers();
+    const hasResults = rounds.length > 0 && players.length > 0;
+    el.scoreboardWrap = $('scoreboard-wrap');
+    el.scoreboardWrap.hidden = !hasResults;
+    el.scoreboardEmpty.hidden = hasResults;
+    if (!hasResults) {
+      el.scoreboardHead.innerHTML = '';
+      el.scoreboardBody.innerHTML = '';
+      $('scoreboard-foot').innerHTML = '';
+      return;
+    }
+
+    el.scoreboardHead.innerHTML = `<tr><th scope="col">NGƯỜI THAM DỰ</th>${rounds.map(round => {
+      const status = round.scored ? '' : '<span class="round-subdate">ĐANG CHƠI</span>';
+      return `<th scope="col">VÁN ${String(round.number).padStart(2, '0')}<span class="round-subdate">${round.scored ? escapeHtml(shortDate(round.finishedAt || round.date)) : status}</span></th>`;
+    }).join('')}<th scope="col" class="total-col">TỔNG</th></tr>`;
+
+    el.scoreboardBody.innerHTML = players.map(player => {
+      let total = 0;
+      const cells = rounds.map(round => {
+        const amount = scoreFor(player.id, round);
+        if (amount !== null) total += amount;
+        return `<td>${moneyCell(amount)}</td>`;
+      }).join('');
+      const totalClass = total > 0 ? 'score-positive' : total < 0 ? 'score-negative' : 'score-pending';
+      const totalValue = total > 0 ? `+${money(total)}` : total < 0 ? `−${money(Math.abs(total))}` : money(total);
+      return `<tr><td><span class="participant-cell"><span class="participant-mini">${escapeHtml(player.name.trim().slice(0, 1).toLocaleUpperCase('vi'))}</span><span>${escapeHtml(player.name)}</span></span></td>${cells}<td class="total-col ${totalClass}">${totalValue}</td></tr>`;
+    }).join('');
+
+    const roundTotals = rounds.map(round => round.scored
+      ? players.reduce((sum, player) => sum + (scoreFor(player.id, round) || 0), 0)
+      : null);
+    const grandTotal = roundTotals.reduce((sum, amount) => sum + (amount || 0), 0);
+    const totalCell = amount => amount === null
+      ? '<span class="score-pending">ĐANG CHƠI</span>'
+      : `<span class="balance-zero">${amount > 0 ? `+${money(amount)}` : amount < 0 ? `−${money(Math.abs(amount))}` : '0 ₫ ✓'}</span>`;
+    $('scoreboard-foot').innerHTML = `<tr><th scope="row">TỔNG ĐỐI SOÁT</th>${roundTotals.map(total => `<td>${totalCell(total)}</td>`).join('')}<td class="total-col">${totalCell(grandTotal)}</td></tr>`;
+  }
+
+  function renderHistory() {
+    const rounds = [...state.rounds].reverse();
+    el.historyPanel.hidden = rounds.length === 0;
+    el.roundHistory.innerHTML = rounds.map(round => {
+      const winners = round.participants.filter(player => round.winners.includes(player.id)).map(player => player.name);
+      const payout = round.winners.length ? round.wager * (round.participants.length - round.winners.length) / round.winners.length : 0;
+      const drawn = round.drawnNumbers?.length || 0;
+      const drawnList = (round.drawnNumbers || []).join(', ') || 'Ván này chưa có số được xổ.';
+      return `<article class="history-item"><div class="history-main"><div class="history-title">Ván ${String(round.number).padStart(2, '0')} <span class="history-meta">· ${escapeHtml(new Date(round.finishedAt || round.date).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' }))}</span></div><div class="history-meta">${drawn} số đã xổ · Quỹ người thua ${escapeHtml(money(round.wager * (round.participants.length - round.winners.length)))}</div><details class="history-draw-details"><summary>Dò lại các số đã gọi</summary><div class="history-drawn-list">${escapeHtml(drawnList)}</div></details></div><div class="history-winners">${escapeHtml(winners.join(', '))}<br><span class="history-meta">+${escapeHtml(money(payout))} thắng ròng/người</span></div></article>`;
+    }).join('');
+  }
+
+  function render() {
+    renderSetup();
+    renderDraw();
+    renderWinners();
+    renderScoreboard();
+    renderHistory();
+  }
+
+  function csvEscape(value) {
+    return `"${String(value ?? '').replace(/"/g, '""')}"`;
+  }
+
+  async function exportCsv() {
+    if (!state.rounds.length) return showToast('Chưa có ván nào được chốt để xuất.', true);
+    const rounds = state.rounds.slice();
+    const players = allScorePlayers();
+    const header = ['Tên người tham dự', ...rounds.map(round => `Ván ${round.number} — ${new Date(round.finishedAt || round.date).toLocaleDateString('vi-VN')}`), 'Tổng thắng/thua'];
+    const rows = players.map(player => {
+      let total = 0;
+      const scores = rounds.map(round => {
+        const amount = scoreFor(player.id, round);
+        if (amount === null) return '';
+        total += amount;
+        return amount > 0 ? `+${amount}` : String(amount);
+      });
+      return [player.name, ...scores, total > 0 ? `+${total}` : String(total)];
+    });
+    const balances = rounds.map(round => players.reduce((sum, player) => sum + (scoreFor(player.id, round) || 0), 0));
+    const totalBalance = balances.reduce((sum, amount) => sum + amount, 0);
+    rows.push(['TỔNG ĐỐI SOÁT (phải bằng 0)', ...balances, totalBalance]);
+    const csv = '\uFEFF' + [header, ...rows].map(row => row.map(csvEscape).join(',')).join('\r\n');
+    const result = await saveFile(`bingo99-ket-qua-${new Date().toISOString().slice(0, 10)}.csv`, csv, 'text/csv;charset=utf-8');
+    if (result === 'saved') showToast('Đã xuất bảng thắng thua kèm ngày từng ván.');
+  }
+
+  function bindEvents() {
+    el.rangeStart.addEventListener('change', () => {
+      if (guard()) { render(); return; }
+      state.rangeStart = Number(el.rangeStart.value);
+      validateRange();
+      save();
+      render();
+    });
+    el.rangeEnd.addEventListener('change', () => {
+      if (guard()) { render(); return; }
+      state.rangeEnd = Number(el.rangeEnd.value);
+      validateRange();
+      save();
+      render();
+    });
+    el.wager.addEventListener('input', () => {
+      if (guard()) { render(); return; }
+      state.wager = getWager();
+      save();
+      renderSetup();
+    });
+    el.newRound.addEventListener('click', startRound);
+    el.drawBtn.addEventListener('click', drawNumber);
+    el.playerForm.addEventListener('submit', event => {
+      event.preventDefault();
+      addPlayer(el.playerName.value);
+    });
+    el.playerList.addEventListener('click', event => {
+      const button = event.target.closest('[data-remove-player]');
+      if (button && !button.disabled) removePlayer(button.dataset.removePlayer);
+    });
+    el.winnerOptions.addEventListener('change', updateWinnerSummary);
+    el.finishRound.addEventListener('click', finishRound);
+    el.exportBtn.addEventListener('click', exportCsv);
+    el.resetBtn.addEventListener('click', () => { if (!guard()) el.resetDialog.showModal(); });
+    el.confirmReset.addEventListener('click', event => {
+      event.preventDefault();
+      el.resetDialog.close();
+      resetAll();
+    });
+    el.resetDialog.addEventListener('click', event => {
+      if (event.target === el.resetDialog) el.resetDialog.close();
+    });
+  }
+
+  bindEvents();
+  render();
+  initSync();
+  const liveTag = document.querySelector('#view-main .live-indicator');
+  const pill = document.createElement('button');
+  pill.id = 'online-btn'; pill.type = 'button'; pill.textContent = '⚙ Chơi online';
+  pill.style.cssText = 'position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:30;padding:9px 14px;border-radius:999px;border:1px solid #2a4350;background:#0f1a22ee;color:#e8f1f2;font:600 12px system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.4)';
+  pill.addEventListener('click', openOnlineDialog);
+  ROOT.appendChild(pill);
+  if (liveTag) { liveTag.style.cursor = 'pointer'; liveTag.title = 'Cài đặt chơi online'; liveTag.addEventListener('click', openOnlineDialog); }
+})();
+</script>
+<script>(() => {
+  'use strict';
+  const ROOT = document.getElementById('view-print');
+  const $ = id => ROOT.querySelector('#' + id);
+  const el = {
+    mode: $('mode'), paper: $('paper-size'), grid: $('grid-size'), perPage: $('cards-per-page'), start: $('range-start'),
+    count: $('ticket-count'), free: $('free-center'), custom: $('custom-box'), freeBox: $('free-box'), modeNote: $('mode-note'),
+    layoutNote: $('layout-note'), rangeNote: $('range-note'), gen: $('generate-btn'), check: $('check-btn'), dl: $('download-btn'),
+    print: $('print-btn'), out: $('ticket-output'), status: $('status-message'), summary: $('preview-summary'), audit: $('audit-results')
+  };
+  const PAPER = { A3: [297, 420], A4: [210, 297], A5: [148, 210], Letter: [216, 279], Legal: [216, 356] };
+  const MODES = {
+    us75: { cols: 5, rows: 5, per: 15, title: true, ranges: true, note: 'Chuẩn Mỹ/quốc tế: lưới 5×5, cột B 1–15 · I 16–30 · N 31–45 · G 46–60 · O 61–75, ô giữa FREE.' },
+    uk90: { cols: 9, rows: 3, title: false, ranges: false, note: 'Chuẩn Anh/châu Âu: lưới 9×3, mỗi vé 15 số (5 số mỗi hàng), cột 1–9, 10–19 … 80–90.' },
+    q30: { cols: 3, rows: 3, per: 10, title: true, ranges: true, note: 'Bản nhanh 3×3: cột 1–10, 11–20, 21–30, mỗi ô một số.' },
+    custom: { title: true, ranges: false, note: 'Tùy chỉnh: chọn lưới, dãy số liên tiếp xáo trộn (đúng bằng số ô).' }
+  };
+  const TITLE_U = 0.95, RANGE_U = 0.36, MARGIN = 8, GAP = 5, MIN_CELL = 8, GOOD_CELL = 14, MAX_CELL = 22;
+  const COUNTS = [1, 2, 4, 6, 8, 9, 12];
+  const FACT = { 1: [[1, 1]], 2: [[1, 2], [2, 1]], 4: [[2, 2], [1, 4], [4, 1]], 6: [[2, 3], [3, 2], [1, 6], [6, 1]], 8: [[2, 4], [4, 2]], 9: [[3, 3]], 12: [[3, 4], [4, 3]] };
+  let tickets = [], meta = null, passed = false, pageStyle = null;
+
+  async function saveFile(filename, data, mime) {
+    try {
+      const dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null;
+      if (dl) { await dl.save({ filename, data }); return 'saved'; }
+    } catch (error) {
+      if (error && error.code === 'declined') return 'declined';
+      console.warn('downloads:', error);
+    }
+    const url = URL.createObjectURL(new Blob([data], { type: mime }));
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    return 'saved';
+  }
+
+  function spec() {
+    const key = el.mode.value;
+    if (key === 'custom') { const [cols, rows] = el.grid.value.split('x').map(Number); return { key, cols, rows, ...MODES.custom }; }
+    return { key, ...MODES[key] };
+  }
+  const useFree = sp => sp.key === 'us75' && el.free.value === '1';
+  const units = sp => (sp.title ? TITLE_U : 0) + (sp.ranges ? RANGE_U : 0) + sp.rows;
+  function colRange(sp, j) {
+    if (sp.key === 'uk90') return [j === 0 ? 1 : j * 10, j === 8 ? 90 : j * 10 + 9];
+    return [sp.per * j + 1, sp.per * (j + 1)];
+  }
+  function rnd(n) {
+    const lim = Math.floor(0x100000000 / n) * n, b = new Uint32Array(1);
+    do { crypto.getRandomValues(b); } while (b[0] >= lim);
+    return b[0] % n;
+  }
+  function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  const pick = (lo, hi, n) => shuffle(Array.from({ length: hi - lo + 1 }, (_, i) => lo + i)).slice(0, n);
+
+  function layout(paper, sp, n) {
+    const [pw, ph] = PAPER[paper];
+    let best = null;
+    for (const [W, H, orientation] of [[pw, ph, 'portrait'], [ph, pw, 'landscape']]) {
+      for (const [sc, sr] of FACT[n]) {
+        const slotW = (W - 2 * MARGIN - (sc - 1) * GAP) / sc, slotH = (H - 2 * MARGIN - (sr - 1) * GAP) / sr;
+        const c = Math.min(slotW / sp.cols, slotH / units(sp), MAX_CELL);
+        if (!best || c > best.c * (orientation === 'landscape' ? 1.15 : 1)) best = { sc, sr, W, H, orientation, c };
+      }
+    }
+    return best;
+  }
+  const allowed = sp => COUNTS.filter(n => layout(el.paper.value, sp, n).c >= MIN_CELL);
+  function autoCount(sp, amount) {
+    const ok = allowed(sp), good = ok.filter(n => layout(el.paper.value, sp, n).c >= GOOD_CELL);
+    const base = good.length ? Math.max(...good) : Math.max(...ok, 1);
+    return amount < base ? (ok.find(n => n >= amount) || base) : base;
+  }
+  const amountNow = () => Math.max(1, Number(el.count.value) || 1);
+  const perPageNow = sp => el.perPage.value === 'auto' ? autoCount(sp, amountNow()) : Number(el.perPage.value);
+
+  function refreshOptions(reset) {
+    const sp = spec(), ok = allowed(sp), cur = el.perPage.value;
+    el.perPage.innerHTML = `<option value="auto">Tự cân bằng (khuyến nghị)</option>` + ok.map(n => `<option value="${n}">${n} vé/trang</option>`).join('');
+    el.perPage.value = !reset && ok.includes(Number(cur)) ? cur : 'auto';
+    el.layoutNote.textContent = `${el.paper.value}: ${ok.join(' · ')} vé/trang · ô số tối thiểu ${MIN_CELL} mm`;
+  }
+  function refreshMode() {
+    const sp = spec(), isCustom = sp.key === 'custom';
+    el.custom.hidden = !isCustom;
+    el.freeBox.hidden = sp.key !== 'us75';
+    el.modeNote.textContent = MODES[sp.key].note;
+    if (isCustom) {
+      const cells = sp.cols * sp.rows, max = 100 - cells;
+      let s = Number(el.start.value); if (!Number.isInteger(s) || s < 1) s = 1; if (s > max) s = max;
+      el.start.value = s; el.start.max = max;
+      el.rangeNote.textContent = `Lưới ${sp.cols}×${sp.rows} = ${cells} ô → dãy ${s}–${s + cells - 1}`;
+    }
+  }
+
+  function clearAudit() { passed = false; el.audit.hidden = true; el.audit.innerHTML = ''; el.dl.disabled = true; el.print.disabled = true; }
+  function invalidate(msg = 'Thông số đã đổi. Hãy tạo lại vé rồi kiểm tra trước khi in.') {
+    if (!tickets.length) return;
+    tickets = []; meta = null; clearAudit(); el.check.disabled = true;
+    el.out.innerHTML = '<div class="empty-state"><span>▦</span><strong>Thiết lập đã thay đổi</strong><small>Hãy tạo lại vé.</small></div>';
+    el.summary.textContent = 'Cần tạo lại vé'; el.status.textContent = msg; el.status.classList.remove('error');
+  }
+  const showError = m => { el.status.textContent = m; el.status.classList.add('error'); };
+
+  function genUk(sp, cells) {
+    for (;;) {
+      const cnt = Array(9).fill(1);
+      for (let extra = 6; extra;) { const j = rnd(9); if (cnt[j] < 3) { cnt[j]++; extra--; } }
+      const used = [0, 0, 0], sel = cnt.map(k => shuffle([0, 1, 2]).slice(0, k).sort());
+      sel.forEach(rs => rs.forEach(r => used[r]++));
+      if (!used.every(n => n === 5)) continue;
+      sel.forEach((rs, j) => { const [lo, hi] = colRange(sp, j); const nums = pick(lo, hi, rs.length).sort((a, b) => a - b); rs.forEach((r, k) => { cells[r * 9 + j] = nums[k]; }); });
+      return;
+    }
+  }
+  function genCard(sp, free, start) {
+    const cells = Array(sp.cols * sp.rows).fill(null);
+    if (sp.key === 'us75' || sp.key === 'q30') {
+      for (let j = 0; j < sp.cols; j++) { const [lo, hi] = colRange(sp, j); pick(lo, hi, sp.rows).forEach((n, i) => { cells[i * sp.cols + j] = n; }); }
+      if (free) cells[12] = 'F';
+    } else if (sp.key === 'uk90') genUk(sp, cells);
+    else shuffle(Array.from({ length: cells.length }, (_, i) => start + i)).forEach((n, i) => { cells[i] = n; });
+    return cells;
+  }
+
+  function ticketHtml(cells, sp, c) {
+    const total = units(sp) * c;
+    let head = '';
+    if (sp.title) head += '<div class="t-title">BINGO</div>';
+    if (sp.ranges) head += '<div class="t-ranges">' + Array.from({ length: sp.cols }, (_, j) => { const [lo, hi] = colRange(sp, j); return `<span>${lo}–${hi}</span>`; }).join('') + '</div>';
+    const body = cells.map(n => n === null ? '<span class="cell blank"></span>' : n === 'F' ? '<span class="cell free">★</span>' : `<span class="cell">${n}</span>`).join('');
+    return `<article class="ticket" style="--c:${c.toFixed(3)}mm;--cols:${sp.cols};--rows:${sp.rows};width:${(sp.cols * c).toFixed(2)}mm;height:${total.toFixed(2)}mm">${head}<div class="t-grid">${body}</div></article>`;
+  }
+  function render() {
+    const sp = meta.sp, n = meta.perPage, L = layout(meta.paper, sp, n), pages = [];
+    for (let o = 0; o < tickets.length; o += n) {
+      const cards = tickets.slice(o, o + n).map(t => ticketHtml(t, sp, L.c)).join('');
+      pages.push(`<div class="sheet-wrap" style="--pw:${L.W};--ph:${L.H}"><section class="sheet" style="width:${L.W}mm;height:${L.H}mm;padding:${MARGIN}mm;gap:${GAP}mm;grid-template-columns:repeat(${L.sc},minmax(0,1fr));grid-template-rows:repeat(${L.sr},minmax(0,1fr))">${cards}</section></div>`);
+    }
+    meta.L = L; el.out.innerHTML = pages.join('');
+    el.summary.textContent = `${tickets.length} vé · ${pages.length} trang ${meta.paper} ${L.orientation} · ${n} vé/trang · ô ${L.c.toFixed(1)} mm`;
+    el.check.disabled = false; el.dl.disabled = !passed; el.print.disabled = !passed;
+    fit();
+  }
+  function fit() {
+    if (!meta || !meta.L) return;
+    const avail = el.out.clientWidth || Math.max(240, window.innerWidth - 40);
+    el.out.style.setProperty('--k', Math.min(1, avail / (meta.L.W * 3.7795)).toFixed(4));
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', () => setTimeout(fit, 30));
+
+  function generate() {
+    const sp = spec(), amount = Number(el.count.value), free = useFree(sp), start = Number(el.start.value) || 1;
+    if (!Number.isInteger(amount) || amount < 1 || amount > 240) return showError('Số vé cần nằm từ 1 đến 240.');
+    if (sp.key === 'custom') {
+      const cells = sp.cols * sp.rows; let cap = 1;
+      for (let v = 2; v <= cells && cap < amount + 1; v++) cap *= v;
+      if (amount > cap) return showError(`Lưới ${sp.cols}×${sp.rows} chỉ có ${cap} cách xếp khác nhau; hãy giảm số vé.`);
+    }
+    const perPage = perPageNow(sp), L = layout(el.paper.value, sp, perPage);
+    if (L.c < MIN_CELL) return showError('Bố cục làm ô số quá nhỏ. Hãy chọn Tự cân bằng hoặc giảm số vé/trang.');
+    const seen = new Set(), list = [];
+    for (let tries = 0; list.length < amount; tries++) {
+      if (tries > amount * 50 + 5000) return showError('Không tạo thêm được vé khác nhau. Hãy giảm số vé.');
+      const t = genCard(sp, free, start), sig = t.join(',');
+      if (!seen.has(sig)) { seen.add(sig); list.push(t); }
+    }
+    tickets = list; meta = { sp, free, start, amount, paper: el.paper.value, perPage };
+    clearAudit(); el.status.textContent = `Đã tạo ${amount} vé. Bấm “Kiểm tra toàn bộ vé” trước khi tải hoặc in.`; el.status.classList.remove('error');
+    render();
+  }
+
+  function audit() {
+    const { sp, free, start, amount, paper, perPage } = meta, errs = [];
+    if (tickets.length !== amount) errs.push('Số lượng vé không khớp yêu cầu.');
+    const L = layout(paper, sp, perPage);
+    if (L.c < MIN_CELL) errs.push('Ô số nhỏ hơn mức tối thiểu để in.');
+    const sigs = new Set();
+    tickets.forEach((t, i) => {
+      const id = `Vé ${i + 1}`, nums = t.filter(v => typeof v === 'number');
+      if (t.length !== sp.cols * sp.rows) return errs.push(`${id}: sai số ô.`);
+      if (new Set(nums).size !== nums.length) errs.push(`${id}: có số lặp.`);
+      if (sp.key === 'us75' || sp.key === 'q30') {
+        for (let j = 0; j < sp.cols; j++) for (let r = 0; r < sp.rows; r++) {
+          const v = t[r * sp.cols + j], [lo, hi] = colRange(sp, j), isCenter = sp.key === 'us75' && r === 2 && j === 2 && free;
+          if (isCenter ? v !== 'F' : !(Number.isInteger(v) && v >= lo && v <= hi)) errs.push(`${id}: ô hàng ${r + 1}, cột ${j + 1} sai quy tắc cột.`);
+        }
+      } else if (sp.key === 'uk90') {
+        if (nums.length !== 15) errs.push(`${id}: cần đúng 15 số.`);
+        for (let r = 0; r < 3; r++) if (t.slice(r * 9, r * 9 + 9).filter(v => v !== null).length !== 5) errs.push(`${id}: hàng ${r + 1} không đủ 5 số.`);
+        for (let j = 0; j < 9; j++) {
+          const col = [0, 1, 2].map(r => t[r * 9 + j]).filter(v => v !== null), [lo, hi] = colRange(sp, j);
+          if (!col.length || col.some(v => v < lo || v > hi) || col.some((v, k) => k && v <= col[k - 1])) errs.push(`${id}: cột ${j + 1} sai khoảng hoặc không tăng dần.`);
+        }
+      } else if ([...nums].sort((a, b) => a - b).some((v, k) => v !== start + k)) errs.push(`${id}: số thiếu hoặc ngoài dãy ${start}–${start + t.length - 1}.`);
+      sigs.add(t.join(','));
+    });
+    if (sigs.size !== tickets.length) errs.push('Có hai vé trùng nguyên mẫu.');
+    return errs;
+  }
+  function check() {
+    const errs = audit(); el.audit.hidden = false;
+    if (errs.length) {
+      passed = false; el.audit.className = 'audit-results audit-fail';
+      el.audit.innerHTML = `<strong>CHƯA ĐẠT ĐỐI CHIẾU</strong><ul>${errs.slice(0, 8).map(e => `<li>${e}</li>`).join('')}</ul>`;
+      el.status.textContent = 'Có điểm chưa khớp. Hãy tạo lại vé.'; el.status.classList.add('error'); el.dl.disabled = true; el.print.disabled = true; return;
+    }
+    passed = true; el.audit.className = 'audit-results audit-pass';
+    el.audit.innerHTML = `<strong>ĐỐI CHIẾU ĐẠT · ${tickets.length} VÉ HỢP LỆ</strong><ul><li>Đúng lưới ${meta.sp.cols}×${meta.sp.rows}, đúng quy tắc cột/hàng của kiểu vé đã chọn</li><li>Không có số lặp trong vé, không có hai vé trùng nhau</li><li>Mỗi ô rộng ${meta.L.c.toFixed(1)} mm (≥ ${MIN_CELL} mm); số được căn giữa trong ô</li></ul>`;
+    el.status.textContent = 'Đã kiểm tra toàn bộ. Có thể tải file hoặc in/Lưu PDF.'; el.status.classList.remove('error'); el.dl.disabled = false; el.print.disabled = false;
+  }
+
+  async function download() {
+    if (!passed) return;
+    const css = document.getElementById('css-print').textContent, L = meta.L;
+    const doc = `<!doctype html><html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bingo 99 — Vé số</title><style>${css}\n@page{size:${meta.paper} ${L.orientation};margin:0}body{background:#fff!important}.print-app{padding:12px!important}</style></head><body><main class="print-app"><div id="ticket-output" class="ticket-output" style="--k:1">${el.out.innerHTML}</div></main><script>var o=document.getElementById('ticket-output');function f(){o.style.setProperty('--k',Math.min(1,(innerWidth-24)/(${L.W}*3.7795)))}f();addEventListener('resize',f)<\/script></body></html>`;
+    const r = await saveFile(`bingo99-ve-${meta.sp.key}-${new Date().toISOString().slice(0, 10)}.html`, doc, 'text/html;charset=utf-8');
+    if (r === 'saved') { el.status.textContent = 'Đã tải file vé HTML độc lập. Mở file rồi in (khổ giấy đã đặt sẵn).'; el.status.classList.remove('error'); }
+  }
+  function printNow() {
+    if (!passed) return;
+    if (!pageStyle) { pageStyle = document.createElement('style'); document.head.appendChild(pageStyle); }
+    pageStyle.textContent = `@page{size:${meta.paper} ${meta.L.orientation};margin:0}`;
+    try { window.print(); } catch (e) { showError('Trình duyệt chặn in trực tiếp. Hãy tải file vé (.HTML) rồi mở file đó để in.'); }
+  }
+  function relayout() {
+    refreshOptions(true);
+    if (!tickets.length) return;
+    meta.paper = el.paper.value; meta.perPage = perPageNow(meta.sp); clearAudit(); render();
+    el.status.textContent = 'Khổ giấy/bố cục đã đổi. Hãy kiểm tra lại toàn bộ vé.';
+  }
+  el.mode.addEventListener('change', () => { refreshMode(); refreshOptions(true); invalidate('Đã đổi kiểu vé. Hãy tạo lại vé.'); });
+  el.grid.addEventListener('change', () => { refreshMode(); refreshOptions(true); invalidate(); });
+  el.start.addEventListener('input', () => { refreshMode(); invalidate(); });
+  el.free.addEventListener('change', () => invalidate());
+  el.count.addEventListener('input', () => invalidate());
+  el.paper.addEventListener('change', relayout);
+  el.perPage.addEventListener('change', () => { if (!tickets.length) return; meta.perPage = perPageNow(meta.sp); clearAudit(); render(); el.status.textContent = 'Bố cục đã đổi. Hãy kiểm tra lại toàn bộ vé.'; });
+  el.gen.addEventListener('click', generate); el.check.addEventListener('click', check);
+  el.dl.addEventListener('click', download); el.print.addEventListener('click', printNow);
+  refreshMode(); refreshOptions(true);
+})();
+</script>
+<script>
+(() => {
+  const m = document.getElementById('view-main'), p = document.getElementById('view-print');
+  const cm = document.getElementById('css-main'), cp = document.getElementById('css-print');
+  function route() {
+    const ve = location.hash === '#ve';
+    m.hidden = ve; p.hidden = !ve;
+    cm.media = ve ? 'not all' : 'all'; cp.media = ve ? 'all' : 'not all';
+    document.title = ve ? 'Tạo vé Bingo — Bingo 99' : 'Bingo 99 — Bảng điểm & tạo vé';
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', route); route();
+})();
+</script>
+</body>
+</html>
